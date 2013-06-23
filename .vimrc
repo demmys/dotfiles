@@ -14,6 +14,8 @@ Bundle 'unite.vim'
 "Entertainment
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'matrix.vim--Yang'
+"sudo
+Bundle 'sudo.vim'
 
 "view
 syntax on
