@@ -12,8 +12,10 @@ if [ ! -d ~/.vim/vundle.git ]; then
     git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
 fi
 
-if [ $TMUX_ENV = "REMOTE" ]; then
+if [ ! -z $TMUX_ENV ]; then
     echo "set-option -g prefix C-t" > ~~~tmp
-    cat ~~~tmp .tmux.conf > .tmux.conf
+    rm -f $HOME/.tmux.conf
+    cat ~~~tmp .tmux.conf > $HOME/.tmux.conf
     rm -f ~~~tmp
+    echo ".tmux.conf setted for remote"
 fi
