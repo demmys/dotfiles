@@ -15,11 +15,13 @@ fi
 
 if [ ! -z $TMUX_ENV ]; then
     echo "set-option -g prefix C-t" > ~~~tmp
-    rm -f $HOME/.tmux.conf
-    cat ~~~tmp .tmux.conf > $HOME/.tmux.conf
-    rm -f ~~~tmp
-    echo ""
-    echo "\033[0;31m.tmux.conf setted for remote.\033[0;39m"
+    echo "\033[0;31m.tmux.conf setting for remote.\033[0;39m"
+else
+    echo "set-option -g prefix C-g" > ~~~tmp
+    echo "\033[0;31m.tmux.conf setting for local.\033[0;39m"
 fi
+cat ~~~tmp .tmux.conf > ~~~.tmux.conf
+mv ~~~.tmux.conf .tmux.conf
+rm -f ~~~tmp
 
 echo "\033[0;31mInstalled dotfiles.\nYou should run :BundleInstall in vim next.\033[0;39m"
