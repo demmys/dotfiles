@@ -5,15 +5,27 @@ call vundle#rc()
 "Omni completion
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
-Bundle 'mattn/zencoding-vim'
+"Haskell
 Bundle 'ujihisa/neco-ghc'
 "Syntax highlight
 Bundle 'dag/vim2hs'
+"Browser
+Bundle 'open-browser.vim'
+Bundle 'browsereload-mac.vim'
+"HTML
+Bundle 'mattn/zencoding-vim'
+Bundle 'surround.vim'
+Bundle 'html5.vim'
+"CSS
+Bundle 'css3-syntax-plus'
+"JavaScript
+Bundle 'pangloss/vim-javascript'
 "Access
 Bundle 'unite.vim'
 "Entertainment
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'matrix.vim--Yang'
+Bundle 'TwitVim'
 "sudo
 Bundle 'sudo.vim'
 
@@ -84,6 +96,8 @@ set nofoldenable
 "move
 nnoremap <silent> j gj
 nnoremap <silent> k gk
+"nnoremap <C-k> :call search ("^". matchstr (getline (line (".")+ 1), '\(\s*\)') ."\\S", 'b')<CR>
+"nnoremap <C-j> :call search ("^". matchstr (getline (line (".")), '\(\s*\)') ."\\S")<CR>
 
 "split
 nnoremap <C-h> <C-w>h
@@ -157,55 +171,55 @@ endif
 "encoding
 set fileencoding=utf-8
 set encoding=utf-8
-if &encoding !=# 'utf-8'
-	set encoding=japan
-	set fileencoding=japan
-endif
-if has('iconv')
-	let s:enc_enc = 'ecu-jp'
-	let s:enc_jis = 'iso-2022-jp'
-	if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
-		let s:enc_euc = 'eucjp-ms'
-		let s:enc_jis = 'iso-2022-jp-3'
-	elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
-		let s:enc_euc = 'euc-jisx0213'
-		let s:enc_jis = 'iso-2022-jp-3'
-	endif
-
-	if &encoding ==# 'utf-8'
-		let s:fileencodings_default = &fileencodings
-		let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
-		let &fileencodings = &fileencodings .','. s:fileencodings_default
-		unlet s:fileencodings_default
-	else
-		let &fileencodings = &fileencodings .','. s:enc_jis
-		set fileencodings+=utf-8,ucs-2le,ucs-2
-		if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
-			set fileencodings+=cp932
-			set fileencodings-=euc-jp
-			set fileencodings-=euc-jisx0213
-			set fileencodings-=eucjp-ms
-			let &encoding = s:enc_euc
-			let &fileencoding = s:enc_euc
-		else
-			let &fileencodings = &fileencodings .','. s:enc_euc
-		endif
-	endif
-	unlet s:enc_euc
-	unlet s:enc_jis
-endif
-if has('autocmd')
-	function! AU_ReCheck_FENC()
-		if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
-			let &fileencoding=&encoding
-		endif
-	endfunction
-endif
-set fileformats=unix,dos,mac
-
-if exists('ambiwidth')
-	set ambiwidth=double
-endif
+"if &encoding !=# 'utf-8'
+"	set encoding=japan
+"	set fileencoding=japan
+"endif
+"if has('iconv')
+"	let s:enc_enc = 'ecu-jp'
+"	let s:enc_jis = 'iso-2022-jp'
+"	if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
+"		let s:enc_euc = 'eucjp-ms'
+"		let s:enc_jis = 'iso-2022-jp-3'
+"	elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
+"		let s:enc_euc = 'euc-jisx0213'
+"		let s:enc_jis = 'iso-2022-jp-3'
+"	endif
+"
+"	if &encoding ==# 'utf-8'
+"		let s:fileencodings_default = &fileencodings
+"		let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
+"		let &fileencodings = &fileencodings .','. s:fileencodings_default
+"		unlet s:fileencodings_default
+"	else
+"		let &fileencodings = &fileencodings .','. s:enc_jis
+"		set fileencodings+=utf-8,ucs-2le,ucs-2
+"		if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
+"			set fileencodings+=cp932
+"			set fileencodings-=euc-jp
+"			set fileencodings-=euc-jisx0213
+"			set fileencodings-=eucjp-ms
+"			let &encoding = s:enc_euc
+"			let &fileencoding = s:enc_euc
+"		else
+"			let &fileencodings = &fileencodings .','. s:enc_euc
+"		endif
+"	endif
+"	unlet s:enc_euc
+"	unlet s:enc_jis
+"endif
+"if has('autocmd')
+"	function! AU_ReCheck_FENC()
+"		if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
+"			let &fileencoding=&encoding
+"		endif
+"	endfunction
+"endif
+"set fileformats=unix,dos,mac
+"
+"if exists('ambiwidth')
+"	set ambiwidth=double
+"endif
 
 "Java
 let java_highlight_all=1
@@ -214,6 +228,31 @@ let java_space_errors=1
 
 "C++
 let java_allow_cpp_keywords=1
+
+"HTML
+let g:user_zen_settings = {
+    \ 'lang' : 'ja',
+    \ 'html' : {
+    \   'filters' : 'html',
+    \   },
+    \ 'css' : {
+    \   'filters' : 'fc',
+    \   },
+    \ }
+syn keyword htmlTagName contained article aside audio bb canvas command
+syn keyword htmlTagName contained datalist details dialog embed figure
+syn keyword htmlTagName contained header hgroup keygen mark meter nav output
+syn keyword htmlTagName contained progress time ruby rt rp section time
+syn keyword htmlTagName contained source figcaption
+syn keyword htmlArg contained autofocus autocomplete placeholder min max
+syn keyword htmlArg contained contenteditable contextmenu draggable hidden
+syn keyword htmlArg contained itemprop list sandbox subject spellcheck
+syn keyword htmlArg contained novalidate seamless pattern formtarget
+syn keyword htmlArg contained formaction formenctype formmethod
+syn keyword htmlArg contained sizes scoped async reversed sandbox srcdoc
+syn keyword htmlArg contained hidden role
+syn match   htmlArg "\<\(aria-[\-a-zA-Z0-9_]\+\)=" contained
+syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
 
 "binary edit
 augroup BinaryXXD
@@ -226,3 +265,31 @@ augroup BinaryXXD
     autocmd BufWritePost * if &binary | silent %!xxd -g 1
     autocmd BufWritePost * set nomod | endif
 augroup END
+
+"Web Browser
+nmap <Leader>o <Plug>(openbrowser-open)
+vmap <Leader>o <Plug>(openbrowser-open)
+nnoremap <Leader>g :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
+let g:returnApp = 'iTerm'
+nmap <Space>bc :ChromeReloadStart<CR>
+nmap <Space>bC :ChromeReloadStop<CR>
+nmap <Space>bf :FirefoxReloadStart<CR>
+nmap <Space>bF :FirefoxReloadStop<CR>
+nmap <Space>bs :SafariReloadStart<CR>
+nmap <Space>bS :SafariReloadStop<CR>
+nmap <Space>bo :OperaReloadStart<CR>
+nmap <Space>bO :OperaReloadStop<CR>
+nmap <Space>ba :AllBrowserReloadStart<CR>
+nmap <Space>bA :AllBrowserReloadStop<CR>
+
+"Twitter
+let twitvim_count = 40
+nnoremap <Space>tt :<C-u>PosttoTwitter<CR>
+nnoremap <Space>tl :<C-u>FriendsTwitter<CR>
+nnoremap <Space>tu :<C-u>UserTwitter<CR>
+nnoremap <Space>tr :<C-u>MentionsTwitter<CR>
+nnoremap <Space>td :<C-u>DMTwitter<CR>
+nnoremap <Space>ts :<C-u>DMSentTwitter<CR>
+nnoremap <Space>tn :<C-u>NextTwitter<CR>
+nnoremap <Space>tp :<C-u>PreviousTwitter<CR>
+nnoremap <Leader><Leader> :<C-u>RefreshTwitter<CR>
