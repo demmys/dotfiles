@@ -2,9 +2,6 @@
 filetype plugin indent on
 set rtp+=~/.vim/vundle.git/
 call vundle#rc()
-"Omni completion
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neosnippet'
 "Haskell
 Bundle 'ujihisa/neco-ghc'
 "Syntax highlight
@@ -13,15 +10,19 @@ Bundle 'dag/vim2hs'
 Bundle 'open-browser.vim'
 Bundle 'browsereload-mac.vim'
 "HTML
-Bundle 'mattn/zencoding-vim'
+Bundle 'mattn/emmet-vim'
 Bundle 'surround.vim'
 Bundle 'html5.vim'
+Bundle 'HTML5-Syntax-File'
 "CSS
 Bundle 'css3-syntax-plus'
 "JSON
 Bundle 'JSON.vim'
 "JavaScript
 Bundle 'pangloss/vim-javascript'
+"Omni completion
+Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neosnippet'
 "Access
 Bundle 'unite.vim'
 "Entertainment
