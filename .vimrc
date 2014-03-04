@@ -18,17 +18,22 @@ Bundle 'HTML5-Syntax-File'
 Bundle 'css3-syntax-plus'
 "JSON
 Bundle 'JSON.vim'
+"CSV
+Bundle 'csv.vim'
 "JavaScript
 Bundle 'pangloss/vim-javascript'
+"Rails
+Bundle 'rails.vim'
+Bundle 'The-NERD-tree'
 "Omni completion
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
+Bundle 'Shougo/neosnippet-snippets'
 "Access
 Bundle 'unite.vim'
 "Entertainment
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'matrix.vim--Yang'
-Bundle 'TwitVim'
 "sudo
 Bundle 'sudo.vim'
 
@@ -209,7 +214,14 @@ syn match   htmlArg "\<\(aria-[\-a-zA-Z0-9_]\+\)=" contained
 syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
 
 "JSON
-au! BufRead,BufNewFile *.json set filetype=json
+autocmd BufNewFile,BufRead *.json setf json
+
+"CSV
+autocmd BufNewFile,BufRead *.csv setf csv
+
+"Rails
+autocmd BufNewFile,BufRead Gemfile* setf ruby
+autocmd BufNewFile,BufRead Guardfile setf ruby
 
 "binary edit
 augroup BinaryXXD
@@ -238,15 +250,3 @@ nmap <Space>bo :OperaReloadStart<CR>
 nmap <Space>bO :OperaReloadStop<CR>
 nmap <Space>ba :AllBrowserReloadStart<CR>
 nmap <Space>bA :AllBrowserReloadStop<CR>
-
-"Twitter
-let twitvim_count = 40
-nnoremap <Space>tt :<C-u>PosttoTwitter<CR>
-nnoremap <Space>tl :<C-u>FriendsTwitter<CR>
-nnoremap <Space>tu :<C-u>UserTwitter<CR>
-nnoremap <Space>tr :<C-u>MentionsTwitter<CR>
-nnoremap <Space>td :<C-u>DMTwitter<CR>
-nnoremap <Space>ts :<C-u>DMSentTwitter<CR>
-nnoremap <Space>tn :<C-u>NextTwitter<CR>
-nnoremap <Space>tp :<C-u>PreviousTwitter<CR>
-nnoremap <Leader><Leader> :<C-u>RefreshTwitter<CR>
