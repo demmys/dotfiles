@@ -131,6 +131,7 @@ au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 " neocomplcache
+let g:neocomplcache_force_overwrite_completefunc=1
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_camel_case_completion = 0
@@ -218,6 +219,9 @@ autocmd BufNewFile,BufRead *.json setf json
 
 "CSV
 autocmd BufNewFile,BufRead *.csv setf csv
+
+"Ruby
+au FileType ruby setl tabstop=2 shiftwidth=2
 
 "Rails
 autocmd BufNewFile,BufRead Gemfile* setf ruby
