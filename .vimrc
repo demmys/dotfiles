@@ -25,6 +25,10 @@ Bundle 'pangloss/vim-javascript'
 "Rails
 Bundle 'rails.vim'
 Bundle 'The-NERD-tree'
+"Yesod
+Bundle 'pbrisbin/html-template-syntax'
+"PHP
+Bundle 'php.vim-html-enhanced'
 "Omni completion
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
@@ -226,6 +230,15 @@ au FileType ruby setl tabstop=2 shiftwidth=2
 "Rails
 autocmd BufNewFile,BufRead Gemfile* setf ruby
 autocmd BufNewFile,BufRead Guardfile setf ruby
+
+"Yesod
+autocmd BufNewFile,BufRead *.hamlet setf hamlet
+autocmd BufNewFile,BufRead *.cassius setf cassius
+autocmd BufNewFile,BufRead *.lucius setf lucius
+autocmd BufNewFile,BufRead *.julius setf julius
+
+"PHP
+autocmd FileType php set shiftwidth=4
 
 "binary edit
 augroup BinaryXXD
