@@ -3,7 +3,7 @@
 cd $(dirname $0)
 
 if [ ! -d ~/.vim/vundle.git ]; then
-    git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
+    git clone https://github.com/gmarik/vundle.git ~/.vim/vundle.git
     echo "Installed Vundle."
 fi
 
