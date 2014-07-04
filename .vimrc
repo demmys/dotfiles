@@ -4,7 +4,6 @@ set rtp+=~/.vim/vundle.git/
 call vundle#rc()
 "Haskell
 Bundle 'ujihisa/neco-ghc'
-"Syntax highlight
 Bundle 'dag/vim2hs'
 "Browser
 Bundle 'open-browser.vim'
@@ -29,6 +28,8 @@ Bundle 'The-NERD-tree'
 Bundle 'pbrisbin/html-template-syntax'
 "PHP
 Bundle 'php.vim-html-enhanced'
+"Markdown
+Bundle 'tpope/vim-markdown'
 "Omni completion
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
@@ -239,6 +240,9 @@ autocmd BufNewFile,BufRead *.julius setf julius
 
 "PHP
 autocmd FileType php set shiftwidth=4
+
+"Markdown
+autocmd BufNewFile,BufRead *.md set filetype=markdown
 
 "binary edit
 augroup BinaryXXD
