@@ -92,8 +92,10 @@ set incsearch
 " enable ignore case when search without upper case
 set ignorecase
 set smartcase
-" always show the status line
+" display the status line anytime
 set laststatus=2
+" always display command
+set showcmd
 
 
 
@@ -127,7 +129,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 " clear search highlight with double esc
-nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
+nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 " display a searched word in the center
 nnoremap n nzz
 nnoremap N Nzz
@@ -135,6 +137,15 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
+" create new tab
+nnoremap gc :<C-u>tabnew<CR>
+" move tab
+nnoremap gn gt
+nnoremap gp gT
+" close current tab
+nnoremap gx :<C-u>tabclose<CR>
+" close all another tabs
+nnoremap go :<C-u>tabonly<CR>
 
 
 
