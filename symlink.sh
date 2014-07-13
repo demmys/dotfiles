@@ -2,9 +2,10 @@
 
 cd $(dirname $0)
 
-if [ ! -d ~/.vim/vundle.git ]; then
-    git clone https://github.com/gmarik/vundle.git ~/.vim/vundle.git
-    echo "Installed Vundle."
+if [ ! -d ~/.vim/bundle/neobundle.vim ]; then
+    mkdir -p ~/.vim/bundle
+    git clone https://github.com/Shougo/neobundle.vim.git ~/.vim/bundle/neobundle.vim
+    echo "Installed NeoBundle."
 fi
 
 if [ ! -z $TMUX_ENV ]; then
@@ -24,4 +25,4 @@ do
     ln -Fis "$PWD/$dotfile" $HOME
 done
 
-echo "Installed dotfiles.\nYou should run :BundleInstall in vim next."
+echo "Installed dotfiles.\nYou should launch vim and install plugins next."
