@@ -1,6 +1,6 @@
-"+-----------+
-"| NeoBundle |
-"+-----------+
+"+---------------+
+"| NeoBundle.vim |
+"+---------------+
 
 " initialization
 if has('vim_starting')
@@ -26,6 +26,8 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'mattn/emmet-vim'
 " decorate status line
 NeoBundle 'itchyny/lightline.vim'
+" use vim with sudo
+NeoBundle 'sudo.vim'
 
 call neobundle#end()
 
@@ -51,11 +53,32 @@ inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " close completion popup with ctrl-h
 inoremap <expr><C-h> neocomplcache#close_popup()
 " enable omni completion
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup NeocomplcacheVimrcCommands
+    autocmd!
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
+
+
+
+"+---------------+
+"| Lightline.vim |
+"+---------------+
+
+" change colorscheme
+let g:lightline = { 'colorscheme': 'wombat' }
+
+
+
+"+-----------+
+"| Unite.vim |
+"+-----------+
+
+" key mapping
+noremap <Space>f :<C-u>UniteWithBufferDir file<CR>
 
 
 
@@ -96,15 +119,6 @@ set smartcase
 set laststatus=2
 " always display command
 set showcmd
-
-
-
-"+--------------------------------------+
-"| Redefine file type specific settings |
-"+--------------------------------------+
-
-" always disable limitation of text width
-autocmd FileType * setlocal textwidth=0
 
 
 
@@ -149,20 +163,12 @@ nnoremap go :<C-u>tabonly<CR>
 
 
 
-"+---------------+
-"| Lightline.vim |
-"+---------------+
-
-let g:lightline = { 'colorscheme': 'wombat' }
-
-
-
-"+---------------------------------------------------------------+
-"| Auto cursor line                                              |
-"|  by thinca (http://d.hatena.ne.jp/thinca/20090530/1243615055) |
-"+---------------------------------------------------------------+
+"+-----------------------+
+"| Auto command settings |
+"+-----------------------+
 
 " do not show cursor line while cursor hold event occured (controlled by updatetime)
+"     by thinca (http://d.hatena.ne.jp/thinca/20090530/1243615055)
 augroup vimrc-auto-cursorline
     autocmd!
     autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
@@ -193,14 +199,8 @@ augroup vimrc-auto-cursorline
     endfunction
 augroup END
 
-
-
-"+--------------------------------------------------------+
-"| BinaryXXD                                              |
-"|  by KaWaZ (http://www.kawaz.jp/pukiwiki/?vim#ib970976) |
-"+--------------------------------------------------------+
-
 " enable binary edit mode when launched with -b option
+"     by KaWaZ (http://www.kawaz.jp/pukiwiki/?vim#ib970976)
 augroup BinaryXXD
     autocmd!
     autocmd BufReadPre  *.bin let &binary = 1
@@ -209,4 +209,11 @@ augroup BinaryXXD
     autocmd BufWritePre * if &binary | %!xxd -r | endif
     autocmd BufWritePost * if &binary | silent %!xxd -g 1
     autocmd BufWritePost * set nomod | endif
+augroup END
+
+" redifine file type specific settings
+augroup RedifineFileTypeSpecificSettingsVimrcCommands
+    autocmd!
+    " always disable limitation of text width
+    autocmd FileType * setlocal textwidth=0
 augroup END
