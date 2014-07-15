@@ -1,3 +1,14 @@
+"+----------------+
+"| Initialization |
+"+----------------+
+
+" disable vi compatible mode
+set nocompatible
+" html tag, strings % match extention
+runtime macros/matchit.vim
+
+
+
 "+---------------+
 "| NeoBundle.vim |
 "+---------------+
@@ -9,6 +20,7 @@ endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+
 " async command execution
 NeoBundle 'Shougo/vimproc.vim', {
             \     'build' : {
@@ -16,21 +28,44 @@ NeoBundle 'Shougo/vimproc.vim', {
             \         'cygwin' : 'make -f make_cygwin.mak',
             \         'mac' : 'make -f make_mac.mak',
             \         'unix' : 'make -f make_unix.mak',
-            \     },
+            \     }
             \ }
 " auto completion system
 NeoBundle 'Shougo/neocomplcache.vim'
 " data choose interface
-NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite.vim', {
+            \     'depends': ['Shougo/vimproc.vim']
+            \ }
+" insert code snippet
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets', {
+            \     'depends': ['Shougo/neosnippet.vim']
+            \ }
 " html, css syntax expander
 NeoBundle 'mattn/emmet-vim'
 " decorate status line
 NeoBundle 'itchyny/lightline.vim'
+" use asynchronous shell in vim
+NeoBundle 'Shougo/vimshell.vim', {
+            \     'depends': ['Shougo/vimproc.vim']
+            \ }
 " use vim with sudo
 NeoBundle 'sudo.vim'
+" highlight matchit.vim matched strings
+NeoBundle 'vimtaku/hl_matchit.vim.git'
+" use git in vim
+NeoBundle 'tpope/vim-fugitive'
+" use twitter in vim
+NeoBundle 'tweetvim', {
+            \     'depends': [
+            \         'mattn/webapi-vim',
+            \         'open-browser.vim',
+            \         'basyura/twibill.vim',
+            \         'basyura/bitly.vim'
+            \     ]
+            \ }
 
 call neobundle#end()
-
 " check whether plugins are installed
 NeoBundleCheck
 
@@ -64,6 +99,17 @@ augroup END
 
 
 
+"+--------------------+
+"| Neocomplecache.vim |
+"+--------------------+
+
+" expand snippet with Return
+imap <expr><CR> !pumvisible() ? "\<CR>" :
+            \ neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" :
+            \ neocomplcache#close_popup()
+
+
+
 "+---------------+
 "| Lightline.vim |
 "+---------------+
@@ -82,12 +128,31 @@ noremap <Space>f :<C-u>UniteWithBufferDir file<CR>
 
 
 
+"+--------------+
+"| VimShell.vim |
+"+--------------+
+
+" display current directory in prompt
+let g:vimshell_prompt_expr = 'getcwd()." $ "'
+let g:vimshell_prompt_pattern = '^\f\+\$ '
+
+
+
+"+-----------+
+"| Unite.vim |
+"+-----------+
+
+let g:hl_matchit_enable_on_vim_startup = 1
+let g:hl_matchit_hl_groupname = 'IncSearch'
+let g:hl_matchit_speed_level = 1
+let g:hl_matchit_allow_ft = 'html,vim,sh,verilog'
+
+
+
 "+----------------------+
 "| Vim default settings |
 "+----------------------+
 
-" disable vi compatible mode
-set nocompatible
 " enable syntax highlight
 syntax enable
 " enable file type cognition
@@ -103,6 +168,8 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set smarttab
+" auto indentation
+set smartindent
 " put the new window current window place
 set splitright
 set splitbelow
@@ -127,8 +194,7 @@ set showcmd
 "+--------------+
 
 " to press enter always create new line
-map <Enter> o<Esc>
-map <S-Enter> O<Esc>
+map <CR> o<Esc>
 " shell like cursor move in command mode
 cmap <C-a> <Home>
 cmap <C-e> <End>
@@ -163,9 +229,31 @@ nnoremap go :<C-u>tabonly<CR>
 
 
 
-"+-----------------------+
-"| Auto command settings |
-"+-----------------------+
+"+----------------------------+
+"| Language specific settings |
+"+----------------------------+
+
+
+" Machine Language
+"     enable binary edit mode when launched with -b option
+"     by KaWaZ (http://www.kawaz.jp/pukiwiki/?vim#ib970976)
+augroup BinaryXXD
+    autocmd!
+    autocmd BufReadPre  *.bin let &binary = 1
+    autocmd BufReadPost * if &binary | silent %!xxd -g 1
+    autocmd BufReadPost * set ft=xxd | endif
+    autocmd BufWritePre * if &binary | %!xxd -r | endif
+    autocmd BufWritePost * if &binary | silent %!xxd -g 1
+    autocmd BufWritePost * set nomod | endif
+augroup END
+
+" Verilog HDL
+"    to enable begin~end % matches, see :help matchit-install
+
+
+"+----------------+
+"| Other settings |
+"+----------------+
 
 " do not show cursor line while cursor hold event occured (controlled by updatetime)
 "     by thinca (http://d.hatena.ne.jp/thinca/20090530/1243615055)
@@ -197,18 +285,6 @@ augroup vimrc-auto-cursorline
             let s:cursorline_lock = 1
         endif
     endfunction
-augroup END
-
-" enable binary edit mode when launched with -b option
-"     by KaWaZ (http://www.kawaz.jp/pukiwiki/?vim#ib970976)
-augroup BinaryXXD
-    autocmd!
-    autocmd BufReadPre  *.bin let &binary = 1
-    autocmd BufReadPost * if &binary | silent %!xxd -g 1
-    autocmd BufReadPost * set ft=xxd | endif
-    autocmd BufWritePre * if &binary | %!xxd -r | endif
-    autocmd BufWritePost * if &binary | silent %!xxd -g 1
-    autocmd BufWritePost * set nomod | endif
 augroup END
 
 " redifine file type specific settings
