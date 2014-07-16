@@ -41,28 +41,86 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets', {
             \     'depends': ['Shougo/neosnippet.vim']
             \ }
-" html, css syntax expander
-NeoBundle 'mattn/emmet-vim'
 " decorate status line
 NeoBundle 'itchyny/lightline.vim'
 " use asynchronous shell in vim
-NeoBundle 'Shougo/vimshell.vim', {
-            \     'depends': ['Shougo/vimproc.vim']
+NeoBundleLazy 'Shougo/vimshell.vim', {
+            \     'depends': ['Shougo/vimproc.vim'],
+            \     'autoload': {
+            \         'commands': ['VimShell', 'VimShellPop', 'VimShellInteractive']
+            \     }
             \ }
 " use vim with sudo
 NeoBundle 'sudo.vim'
 " highlight matchit.vim matched strings
-NeoBundle 'vimtaku/hl_matchit.vim.git'
+NeoBundleLazy 'vimtaku/hl_matchit.vim.git', {
+            \     'autoload': {
+            \         'filetypes': ['vim', 'verilog', 'html']
+            \     }
+            \ }
 " use git in vim
 NeoBundle 'tpope/vim-fugitive'
 " use twitter in vim
-NeoBundle 'tweetvim', {
+NeoBundleLazy 'tweetvim', {
             \     'depends': [
+            \         'Shougo/unite.vim',
             \         'mattn/webapi-vim',
             \         'open-browser.vim',
             \         'basyura/twibill.vim',
             \         'basyura/bitly.vim'
-            \     ]
+            \     ],
+            \     'autoload': {
+            \         'commands': ['TweetVimHomeTimeline', 'TweetVimMentions'],
+            \         'unite_sources': ['tweetvim']
+            \     }
+            \ }
+" html, css syntax expander
+NeoBundleLazy 'mattn/emmet-vim', {
+            \     'autoload': {
+            \         'filename_patterns': ['.*\.html'],
+            \         'filetype': ['html']
+            \     }
+            \ }
+" html5 syntax highlighting
+NeoBundleLazy 'othree/html5.vim', {
+            \     'autoload': {
+            \         'filename_patterns': ['.*\.html'],
+            \         'filetype': ['html']
+            \     }
+            \ }
+" less syntax highlighting
+NeoBundle 'groenewege/vim-less'
+" display color of css
+NeoBundleLazy 'ap/vim-css-color', {
+            \     'autoload': {
+            \         'filename_patterns': ['.*\.css', '.*\.less', '.*\.sass'],
+            \         'filetype': ['css', 'less', 'sass']
+            \     }
+            \ }
+" markdown syntax highlighting
+NeoBundleLazy 'rcmdnk/vim-markdown', {
+            \     'autoload': {
+            \         'filename_patterns': ['.*\.md'],
+            \         'filetype': ['markdown']
+            \     }
+            \ }
+" scala syntax highlighting
+NeoBundleLazy 'derekwyatt/vim-scala', {
+            \     'autoload': {
+            \         'filename_patterns': ['.*\.scala'],
+            \         'filetype': ['scala']
+            \     }
+            \ }
+" play framework files syntax highlighting
+NeoBundleLazy 'gre/play2vim', {
+            \     'depends': [
+            \         'derekwyatt/vim-scala',
+            \         'othree/html5.vim'
+            \     ],
+            \     'autoload': {
+            \         'filename_patterns': ['.*\.scala\.html', '.*\/conf\(.*\|\)routes', '.*\/conf\/.*\.conf', 'plugins.sbt'],
+            \         'filetype': ['play2-html', 'play2-routes', 'play2-conf', 'scala']
+            \     }
             \ }
 
 call neobundle#end()
@@ -123,8 +181,11 @@ let g:lightline = { 'colorscheme': 'wombat' }
 "| Unite.vim |
 "+-----------+
 
-" key mapping
+" open file index with space + f
 noremap <Space>f :<C-u>UniteWithBufferDir file<CR>
+" close unite with double esc
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 
 
@@ -146,6 +207,22 @@ let g:hl_matchit_enable_on_vim_startup = 1
 let g:hl_matchit_hl_groupname = 'IncSearch'
 let g:hl_matchit_speed_level = 1
 let g:hl_matchit_allow_ft = 'html,vim,sh,verilog'
+
+
+
+"+--------------+
+"| Vim-Markdown |
+"+--------------+
+
+let g:vim_markdown_folding_disabled = 1
+
+
+
+"+-----------+
+"| Unite.vim |
+"+-----------+
+
+nnoremap <Space>t :<C-u>Unite tweetvim<CR>
 
 
 
@@ -210,13 +287,6 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 " clear search highlight with double esc
 nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
-" display a searched word in the center
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
-nnoremap g* g*zz
-nnoremap g# g#zz
 " create new tab
 nnoremap gc :<C-u>tabnew<CR>
 " move tab
@@ -247,8 +317,6 @@ augroup BinaryXXD
     autocmd BufWritePost * set nomod | endif
 augroup END
 
-" Verilog HDL
-"    to enable begin~end % matches, see :help matchit-install
 
 
 "+----------------+
