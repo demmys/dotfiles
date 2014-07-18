@@ -98,12 +98,7 @@ NeoBundleLazy 'ap/vim-css-color', {
             \     }
             \ }
 " markdown syntax highlighting
-NeoBundleLazy 'rcmdnk/vim-markdown', {
-            \     'autoload': {
-            \         'filename_patterns': ['.*\.md'],
-            \         'filetype': ['markdown']
-            \     }
-            \ }
+NeoBundle 'rcmdnk/vim-markdown'
 " scala syntax highlighting
 NeoBundleLazy 'derekwyatt/vim-scala', {
             \     'autoload': {
