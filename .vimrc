@@ -119,6 +119,12 @@ NeoBundleLazy 'gre/play2vim', {
             \         'filetype': ['play2-html', 'play2-routes', 'play2-conf', 'scala']
             \     }
             \ }
+" swift syntax highlighting, indentation
+NeoBundleLazy 'Keithbsmiley/swift.vim', {
+            \     'autoload': {
+            \         'filename_patterns': ['.*\.swift']
+            \     }
+            \ }
 
 call neobundle#end()
 " check whether plugins are installed
