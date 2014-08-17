@@ -97,6 +97,8 @@ NeoBundleLazy 'ap/vim-css-color', {
             \         'filetype': ['css', 'less', 'sass']
             \     }
             \ }
+" javascript indentation
+NeoBundle 'pangloss/vim-javascript'
 " markdown syntax highlighting
 NeoBundle 'rcmdnk/vim-markdown'
 " scala syntax highlighting
