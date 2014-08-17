@@ -185,10 +185,12 @@ let g:lightline = { 'colorscheme': 'wombat' }
 "+-----------+
 
 " open file index with space + f
-noremap <Space>f :<C-u>UniteWithBufferDir file<CR>
+noremap <silent> <Space>f :<C-u>UniteWithBufferDir file<CR>
 " close unite with double esc
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+augroup UniteVimrcCommands
+    autocmd FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+    autocmd FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+augroup END;
 
 
 
@@ -225,7 +227,17 @@ let g:vim_markdown_folding_disabled = 1
 "| Unite.vim |
 "+-----------+
 
-nnoremap <Space>t :<C-u>Unite tweetvim<CR>
+nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
+
+
+
+"+----------+
+"| TweetVim |
+"+----------+
+
+augroup TweetVimVimrcCommands
+    autocmd FileType tweetvim nnoremap <buffer> <silent> s :<C-u>TweetVimSay<CR>
+augroup END;
 
 
 
@@ -289,16 +301,16 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 " clear search highlight with double esc
-nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
+nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 " create new tab
-nnoremap gc :<C-u>tabnew<CR>
+nnoremap <silent> gc :<C-u>tabnew<CR>
 " move tab
 nnoremap gn gt
 nnoremap gp gT
 " close current tab
-nnoremap gx :<C-u>tabclose<CR>
+nnoremap <silent> gx :<C-u>tabclose<CR>
 " close all another tabs
-nnoremap go :<C-u>tabonly<CR>
+nnoremap <silent> go :<C-u>tabonly<CR>
 
 
 
