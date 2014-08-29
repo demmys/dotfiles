@@ -1,10 +1,4 @@
-"+----------------+
-"| Initialization |
-"+----------------+
-
-" disable vi compatible mode
-set nocompatible
-" html tag, strings % match extention
+" %がHTMLタグやdef~endなどに対しても有効になる
 runtime macros/matchit.vim
 
 
@@ -13,7 +7,6 @@ runtime macros/matchit.vim
 "| NeoBundle.vim |
 "+---------------+
 
-" initialization
 if has('vim_starting')
     set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
@@ -21,7 +14,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 
-" async command execution
+" 非同期コマンド実行プラグイン
 NeoBundle 'Shougo/vimproc.vim', {
             \     'build' : {
             \         'windows' : 'tools\\update-dll-mingw',
@@ -30,37 +23,38 @@ NeoBundle 'Shougo/vimproc.vim', {
             \         'unix' : 'make -f make_unix.mak',
             \     }
             \ }
-" auto completion system
+" 自動補完
 NeoBundle 'Shougo/neocomplcache.vim'
-" data choose interface
+" データ選択インターフェース
 NeoBundle 'Shougo/unite.vim', {
             \     'depends': ['Shougo/vimproc.vim']
             \ }
-" insert code snippet
+" ファイルエクスプローラ
+NeoBundle 'Shougo/vimfiler.vim', {
+            \     'depends': ['Shougo/unite.vim']
+            \ }
+" コードスニペット集
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets', {
             \     'depends': ['Shougo/neosnippet.vim']
             \ }
-" decorate status line
+" ステータスラインのデコレート
 NeoBundle 'itchyny/lightline.vim'
-" use asynchronous shell in vim
-NeoBundleLazy 'Shougo/vimshell.vim', {
-            \     'depends': ['Shougo/vimproc.vim'],
-            \     'autoload': {
-            \         'commands': ['VimShell', 'VimShellPop', 'VimShellInteractive']
-            \     }
+" シェル
+NeoBundle 'Shougo/vimshell.vim', {
+            \     'depends': ['Shougo/vimproc.vim']
             \ }
-" use vim with sudo
+" .vimrcを活かしたままsudoできる
 NeoBundle 'sudo.vim'
-" highlight matchit.vim matched strings
+" matchit.vimでマッチする文字をハイライト
 NeoBundleLazy 'vimtaku/hl_matchit.vim.git', {
             \     'autoload': {
             \         'filetypes': ['vim', 'verilog', 'html']
             \     }
             \ }
-" use git in vim
+" Vim内でGitのコマンドを使える
 NeoBundle 'tpope/vim-fugitive'
-" use twitter in vim
+" Twitterクライアント
 NeoBundleLazy 'tweetvim', {
             \     'depends': [
             \         'Shougo/unite.vim',
@@ -74,41 +68,45 @@ NeoBundleLazy 'tweetvim', {
             \         'unite_sources': ['tweetvim']
             \     }
             \ }
-" html, css syntax expander
+" ベースネームが同じファイル間を移動する
+NeoBundle 'kana/vim-altr'
+" ファイルタイプにあったコメントアウトを挿入
+NeoBundle 'tyru/caw.vim'
+" HTMLやCSSの構文を簡単に記述できる
 NeoBundleLazy 'mattn/emmet-vim', {
             \     'autoload': {
             \         'filename_patterns': ['.*\.html'],
             \         'filetype': ['html']
             \     }
             \ }
-" html5 syntax highlighting
+" HTML5のシンタックスハイライト
 NeoBundleLazy 'othree/html5.vim', {
             \     'autoload': {
             \         'filename_patterns': ['.*\.html'],
             \         'filetype': ['html']
             \     }
             \ }
-" less syntax highlighting
+" Lessのシンタックスハイライト
 NeoBundle 'groenewege/vim-less'
-" display color of css
+" CSSの色を表示
 NeoBundleLazy 'ap/vim-css-color', {
             \     'autoload': {
             \         'filename_patterns': ['.*\.css', '.*\.less', '.*\.sass'],
             \         'filetype': ['css', 'less', 'sass']
             \     }
             \ }
-" javascript indentation
+" JavaScriptのインデンテーション
 NeoBundle 'pangloss/vim-javascript'
-" markdown syntax highlighting
+" Markdownのシンタックスハイライト
 NeoBundle 'rcmdnk/vim-markdown'
-" scala syntax highlighting
+" Scalaのシンタックスハイライト
 NeoBundleLazy 'derekwyatt/vim-scala', {
             \     'autoload': {
             \         'filename_patterns': ['.*\.scala'],
             \         'filetype': ['scala']
             \     }
             \ }
-" play framework files syntax highlighting
+" Play! Frameworkの設定ファイルをシンタックスハイライト
 NeoBundleLazy 'gre/play2vim', {
             \     'depends': [
             \         'derekwyatt/vim-scala',
@@ -119,7 +117,7 @@ NeoBundleLazy 'gre/play2vim', {
             \         'filetype': ['play2-html', 'play2-routes', 'play2-conf', 'scala']
             \     }
             \ }
-" swift syntax highlighting, indentation
+" Swiftのシンタックスハイライト
 NeoBundleLazy 'Keithbsmiley/swift.vim', {
             \     'autoload': {
             \         'filename_patterns': ['.*\.swift']
@@ -127,7 +125,7 @@ NeoBundleLazy 'Keithbsmiley/swift.vim', {
             \ }
 
 call neobundle#end()
-" check whether plugins are installed
+" 起動時にプラグインがインストールされているか確認する
 NeoBundleCheck
 
 
@@ -136,19 +134,21 @@ NeoBundleCheck
 "| Neocomplecache.vim |
 "+--------------------+
 
-" always enable completion
+" 常に自動補完をON
 let g:neocomplcache_enable_at_startup = 1
-" ignore case of input while used upper case for completion
+" completefuncが他のプラグインで定義されていても上書きする
+let g:neocomplcache_force_overwrite_completefunc = 1
+" 大文字・小文字が異なっていても自動補完候補を出す
 let g:neocomplcache_enable_smart_case = 1
-" enable completion separated by under bar
+" アンダースコアを含む文字列も自動補完する
 let g:neocomplcache_enable_underbar_completion = 1
-" cache all words longer than 3 characters for completion
+" 3文字以上のものについて自動補完を行う
 let g:neocomplcache_min_syntax_length = 3
-" completion with tab
+" TABキーで補完候補を選択する
 inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" close completion popup with ctrl-h
+" Ctrl+hで補完候補表示を閉じる
 inoremap <expr><C-h> neocomplcache#close_popup()
-" enable omni completion
+" オムニ補完を有効化
 augroup NeocomplcacheVimrcCommands
     autocmd!
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -160,11 +160,11 @@ augroup END
 
 
 
-"+--------------------+
-"| Neocomplecache.vim |
-"+--------------------+
+"+----------------+
+"| Neosnippet.vim |
+"+----------------+
 
-" expand snippet with Return
+" Returnキーでスニペットを展開
 imap <expr><CR> !pumvisible() ? "\<CR>" :
             \ neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" :
             \ neocomplcache#close_popup()
@@ -175,8 +175,49 @@ imap <expr><CR> !pumvisible() ? "\<CR>" :
 "| Lightline.vim |
 "+---------------+
 
-" change colorscheme
-let g:lightline = { 'colorscheme': 'wombat' }
+let g:lightline = {
+            \     'colorscheme': 'wombat',
+            \     'active': {
+            \         'left': [
+            \             ['mode', 'paste'],
+            \             ['readonly', 'filename', 'modified']
+            \         ],
+            \         'right': [
+            \             ['lineinfo'],
+            \             ['persent'],
+            \             ['fileformat', 'fileencoding', 'filetype']
+            \         ]
+            \     },
+            \     'component_function': {
+            \         'filename': 'VimrcLightLineFileName'
+            \     },
+            \     'component_expand': {
+            \         'readonly': 'VimrcLightLineReadOnly'
+            \     },
+            \     'component_type': {
+            \         'readonly': 'error'
+            \     }
+            \ }
+
+" helpなど自明な場合以外はわかりやすくReadOnlyを表示
+function! VimrcLightLineReadOnly()
+    return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'RO' : ''
+endfunction
+
+" Vimfiler・VimShell・Uniteではステータス表示、それ以外はファイルパス表示
+function! VimrcLightLineFileName()
+    if &ft == 'vimfiler'
+        return vimfiler#get_status_string()
+    elseif &ft == 'unite'
+        return unite#get_status_string()
+    elseif &ft == 'vimshell'
+        return vimshell#get_status_string()
+    elseif expand('%') == ''
+        return '[No Name]'
+    else
+        return expand('%')
+    endif
+endfunction
 
 
 
@@ -184,9 +225,9 @@ let g:lightline = { 'colorscheme': 'wombat' }
 "| Unite.vim |
 "+-----------+
 
-" open file index with space + f
-noremap <silent> <Space>f :<C-u>UniteWithBufferDir file<CR>
-" close unite with double esc
+" Uniteのステータスラインを自前のものにする
+let g:unite_force_overwrite_statusline = 0
+" Esc2回でUniteウィンドウを閉じる
 augroup UniteVimrcCommands
     autocmd FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
     autocmd FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
@@ -195,23 +236,62 @@ augroup END;
 
 
 "+--------------+
+"| VimFiler.vim |
+"+--------------+
+
+" VimFilerのステータスラインを自前のものにする
+let g:vimfiler_force_overwrite_statusline = 0
+" VimFilerを標準のファイルマネージャーとして使う
+let g:vimfiler_as_default_explorer = 1
+" Space+fでカレントバッファのディレクトリを開く
+noremap <silent> <Space>f :<C-u>VimFilerBufferDir -split -horizontal -winheight=20<CR>
+
+
+
+"+----------+
+"| Vim-Altr |
+"+----------+
+
+" \+aでベースネームが同じファイルへ移動
+nmap <Leader>a <Plug>(altr-forward)
+" \+bで移動前のファイルに戻る
+nmap <Leader>b <Plug>(altr-back)
+" C++用の設定
+call altr#define('%.cc', '%.h')
+
+
+
+"+--------------+
 "| VimShell.vim |
 "+--------------+
 
-" display current directory in prompt
+" \+cでコメントアウトを挿入/解除
+nmap <Leader>c <Plug>(caw:i:toggle)
+vmap <Leader>c <Plug>(caw:i:toggle)
+
+
+
+"+--------------+
+"| VimShell.vim |
+"+--------------+
+
+" プロンプトに現在のディレクトリを表示
 let g:vimshell_prompt_expr = 'getcwd()." $ "'
 let g:vimshell_prompt_pattern = '^\f\+\$ '
 
 
 
-"+-----------+
-"| Unite.vim |
-"+-----------+
+"+----------------+
+"| HL_Matchit.vim |
+"+----------------+
 
+" Vim・BashScript・Verilog・Rubyでのみハイライトを有効化
 let g:hl_matchit_enable_on_vim_startup = 1
+let g:hl_matchit_allow_ft = 'vim,sh,verilog,ruby'
+" ハイライト時の色グループを設定
 let g:hl_matchit_hl_groupname = 'IncSearch'
+" 対応を示すのが遅くなる場合はハイライトしない
 let g:hl_matchit_speed_level = 1
-let g:hl_matchit_allow_ft = 'html,vim,sh,verilog'
 
 
 
@@ -219,15 +299,19 @@ let g:hl_matchit_allow_ft = 'html,vim,sh,verilog'
 "| Vim-Markdown |
 "+--------------+
 
+" 自動で折りたたまないようにする
 let g:vim_markdown_folding_disabled = 1
 
 
 
 "+-----------+
-"| Unite.vim |
+"| Swift.vim |
 "+-----------+
 
-nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
+" タブはスペース4つに展開
+augroup SwiftVimVimrcCommands
+    autocmd FileType swift setlocal tabstop=4 shiftwidth=4
+augroup END;
 
 
 
@@ -235,6 +319,9 @@ nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
 "| TweetVim |
 "+----------+
 
+" Ctrl+tでTweetVimのUniteバッファを開く
+nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
+" TweetVim内でsを押すと新規ツイート作成
 augroup TweetVimVimrcCommands
     autocmd FileType tweetvim nnoremap <buffer> <silent> s :<C-u>TweetVimSay<CR>
 augroup END;
@@ -245,38 +332,38 @@ augroup END;
 "| Vim default settings |
 "+----------------------+
 
-" enable syntax highlight
+" シンタックスハイライトをON
 syntax enable
-" enable file type cognition
+" ファイルタイプ毎の設定をON
 filetype plugin indent on
-" show line number
+" 行番号を表示
 set number
-" show matching paren
+" マッチするカッコを強調表示
 set showmatch matchtime=1
-" show tabs and wrapped lines
+" タブと行の折り返しを可視化
 set list listchars=tab:>\ ,extends:<
-" always insert spaces instead of tab
+" 常にタブをスペースに展開
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set smarttab
-" auto indentation
+" 自動インデントをON
 set smartindent
-" put the new window current window place
+" 新しいウィンドウを開く際に現在のウィンドウの位置が変わらないように
 set splitright
 set splitbelow
-" do not remain backup file after close file
+" バックアップファイルを作成しない
 set nobackup
-" highlight matches when search
+" 検索でマッチしたワードをハイライト
 set hlsearch
-" enable increment search
+" インクリメンタルサーチを有効化
 set incsearch
-" enable ignore case when search without upper case
+" 大文字を含まない文字列での検索では大文字小文字を区別しない
 set ignorecase
 set smartcase
-" display the status line anytime
+" 常にステータスラインを表示
 set laststatus=2
-" always display command
+" 常にコマンドを表示
 set showcmd
 
 
@@ -285,44 +372,52 @@ set showcmd
 "| Key mappings |
 "+--------------+
 
-" to press enter always create new line
-map <CR> o<Esc>
-" shell like cursor move in command mode
-cmap <C-a> <Home>
-cmap <C-e> <End>
-cmap <C-f> <Right>
-cmap <C-b> <Left>
-" always move in visual line
+" Returnキーは常に新しい行を追加するように
+noremap <CR> o<Esc>
+" シェルのカーソル移動コマンドを有効化
+cnoremap <C-a> <Home>
+inoremap <C-a> <Home>
+cnoremap <C-e> <End>
+inoremap <C-e> <End>
+cnoremap <C-f> <Right>
+inoremap <C-f> <Right>
+cnoremap <C-b> <Left>
+inoremap <C-b> <Left>
+" 折り返した行を複数行として移動
 nnoremap <silent> j gj
 nnoremap <silent> k gk
-" simplify commands to move window
+" ウィンドウの移動をCtrlキーと方向指定でできるように
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-" clear search highlight with double esc
+" Esc2回で検索のハイライトを消す
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
-" create new tab
+" gをバインドキーとしたtmuxと同じキーバインドでタブを操作
 nnoremap <silent> gc :<C-u>tabnew<CR>
-" move tab
 nnoremap gn gt
 nnoremap gp gT
-" close current tab
 nnoremap <silent> gx :<C-u>tabclose<CR>
-" close all another tabs
+" g+oで現在開いている以外のタブを全て閉じる
 nnoremap <silent> go :<C-u>tabonly<CR>
 
 
+"+----------------+
+"| Other settings |
+"+----------------+
 
-"+----------------------------+
-"| Language specific settings |
-"+----------------------------+
+" プラグインによるファイルタイプごとの設定を上書き
+augroup RedifineFileTypeSpecificSettingsVimrcCommands
+    autocmd!
+    " 常に文字数による自動改行は行わない
+    autocmd FileType * setlocal textwidth=0
+augroup END
 
 
-" Machine Language
-"     enable binary edit mode when launched with -b option
-"     by KaWaZ (http://www.kawaz.jp/pukiwiki/?vim#ib970976)
-augroup BinaryXXD
+
+" -bオプションで起動した場合にバイナリ編集モードを有効化する
+"     original by KaWaZ (http://www.kawaz.jp/pukiwiki/?vim#ib970976)
+augroup BinaryEditVimrcCommands
     autocmd!
     autocmd BufReadPre  *.bin let &binary = 1
     autocmd BufReadPost * if &binary | silent %!xxd -g 1
@@ -334,13 +429,9 @@ augroup END
 
 
 
-"+----------------+
-"| Other settings |
-"+----------------+
-
-" do not show cursor line while cursor hold event occured (controlled by updatetime)
-"     by thinca (http://d.hatena.ne.jp/thinca/20090530/1243615055)
-augroup vimrc-auto-cursorline
+" カーソルの位置を表すラインを必要なときだけ表示する
+"     original by thinca (http://d.hatena.ne.jp/thinca/20090530/1243615055)
+augroup AutoCursorLineVimrcCommands
     autocmd!
     autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
     autocmd CursorHold,CursorHoldI * call s:auto_cursorline('CursorHold')
@@ -370,9 +461,10 @@ augroup vimrc-auto-cursorline
     endfunction
 augroup END
 
-" redifine file type specific settings
-augroup RedifineFileTypeSpecificSettingsVimrcCommands
+
+" ファイルに書き込む際に行末のスペースを削除する
+"     original by yuroyoro (http://deris.hatenablog.jp/entry/2013/05/10/003430)
+augroup DeleteEOLSpaceVimrcCommands
     autocmd!
-    " always disable limitation of text width
-    autocmd FileType * setlocal textwidth=0
+    autocmd BufWritePre * :%s/\s\+$//ge
 augroup END
