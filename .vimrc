@@ -1,3 +1,6 @@
+set encoding=utf-8
+scriptencoding utf-8
+
 " %がHTMLタグやdef~endなどに対しても有効になる
 runtime macros/matchit.vim
 
@@ -44,6 +47,8 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'Shougo/vimshell.vim', {
             \     'depends': ['Shougo/vimproc.vim']
             \ }
+" Visualモード時に*で選択した文字を検索できる
+NeoBundle 'thinca/vim-visualstar'
 " .vimrcを活かしたままsudoできる
 NeoBundle 'sudo.vim'
 " matchit.vimでマッチする文字をハイライト
@@ -121,6 +126,25 @@ NeoBundleLazy 'gre/play2vim', {
 NeoBundleLazy 'Keithbsmiley/swift.vim', {
             \     'autoload': {
             \         'filename_patterns': ['.*\.swift']
+            \     }
+            \ }
+" Haskellのシンタックスハイライトとインデンテーション
+NeoBundleLazy 'dag/vim2hs', {
+            \     'autoload': {
+            \         'filetype': ['haskell']
+            \     }
+            \ }
+" Shakespeare HTMLテンプレートのシンタックスハイライト
+NeoBundleLazy 'pbrisbin/vim-syntax-shakespeare', {
+            \     'autoload': {
+            \         'filename_patterns': ['.*\.hamlet', '.*\.julius', '.*\.lucius']
+            \     }
+            \ }
+" HaskellのためのNeocomplecacheを使った自動補完
+NeoBundleLazy 'eagletmt/neco-ghc', {
+            \     'depends': [ 'Shougo/neocomplcache.vim' ],
+            \     'autoload': {
+            \         'filetype': ['haskell']
             \     }
             \ }
 
@@ -204,7 +228,7 @@ function! VimrcLightLineReadOnly()
     return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'RO' : ''
 endfunction
 
-" Vimfiler・VimShell・Uniteではステータス表示、それ以外はファイルパス表示
+" VimFiler・VimShell・Uniteではステータス表示、それ以外はファイルパス表示
 function! VimrcLightLineFileName()
     if &ft == 'vimfiler'
         return vimfiler#get_status_string()
@@ -243,8 +267,10 @@ augroup END;
 let g:vimfiler_force_overwrite_statusline = 0
 " VimFilerを標準のファイルマネージャーとして使う
 let g:vimfiler_as_default_explorer = 1
-" Space+fでカレントバッファのディレクトリを開く
-noremap <silent> <Space>f :<C-u>VimFilerBufferDir -split -horizontal -winheight=20<CR>
+" Space+ffかSpace+fs、Space+fvでカレントバッファのディレクトリを開く
+noremap <silent> <Space>ff :<C-u>VimFilerBufferDir<CR>
+noremap <silent> <Space>fs :<C-u>VimFilerBufferDir -split -horizontal<CR>
+noremap <silent> <Space>fv :<C-u>VimFilerBufferDir -split<CR>
 
 
 
@@ -258,6 +284,9 @@ nmap <Leader>a <Plug>(altr-forward)
 nmap <Leader>b <Plug>(altr-back)
 " C++用の設定
 call altr#define('%.cc', '%.h')
+call altr#define('src/%.cc', 'src/%.h', 'test/src/%_test.cc')
+" Play!Framework(java)用の設定
+call altr#define('app/%.java', 'test/%Test.java')
 
 
 
@@ -459,12 +488,4 @@ augroup AutoCursorLineVimrcCommands
             let s:cursorline_lock = 1
         endif
     endfunction
-augroup END
-
-
-" ファイルに書き込む際に行末のスペースを削除する
-"     original by yuroyoro (http://deris.hatenablog.jp/entry/2013/05/10/003430)
-augroup DeleteEOLSpaceVimrcCommands
-    autocmd!
-    autocmd BufWritePre * :%s/\s\+$//ge
 augroup END
