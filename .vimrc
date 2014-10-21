@@ -80,35 +80,43 @@ NeoBundle 'tyru/caw.vim'
 " HTMLやCSSの構文を簡単に記述できる
 NeoBundleLazy 'mattn/emmet-vim', {
             \     'autoload': {
-            \         'filename_patterns': ['.*\.html'],
-            \         'filetype': ['html']
+            \         'filetypes': ['html']
             \     }
             \ }
 " HTML5のシンタックスハイライト
 NeoBundleLazy 'othree/html5.vim', {
             \     'autoload': {
-            \         'filename_patterns': ['.*\.html'],
-            \         'filetype': ['html']
+            \         'filetypes': ['html']
             \     }
             \ }
 " Lessのシンタックスハイライト
-NeoBundle 'groenewege/vim-less'
+NeoBundleLazy 'groenewege/vim-less', {
+            \     'autoload': {
+            \         'filetypes': ['less']
+            \     }
+            \ }
 " CSSの色を表示
 NeoBundleLazy 'ap/vim-css-color', {
             \     'autoload': {
-            \         'filename_patterns': ['.*\.css', '.*\.less', '.*\.sass'],
-            \         'filetype': ['css', 'less', 'sass']
+            \         'filetypes': ['css', 'less', 'sass']
             \     }
             \ }
 " JavaScriptのインデンテーション
-NeoBundle 'pangloss/vim-javascript'
+NeoBundleLazy 'pangloss/vim-javascript', {
+            \     'autoload': {
+            \         'filetypes': ['javascript']
+            \     }
+            \ }
 " Markdownのシンタックスハイライト
-NeoBundle 'rcmdnk/vim-markdown'
+NeoBundleLazy 'rcmdnk/vim-markdown', {
+            \     'autoload': {
+            \         'filetypes': ['markdown']
+            \     }
+            \ }
 " Scalaのシンタックスハイライト
 NeoBundleLazy 'derekwyatt/vim-scala', {
             \     'autoload': {
-            \         'filename_patterns': ['.*\.scala'],
-            \         'filetype': ['scala']
+            \         'filetypes': ['scala']
             \     }
             \ }
 " Play! Frameworkの設定ファイルをシンタックスハイライト
@@ -119,32 +127,38 @@ NeoBundleLazy 'gre/play2vim', {
             \     ],
             \     'autoload': {
             \         'filename_patterns': ['.*\.scala\.html', '.*\/conf\(.*\|\)routes', '.*\/conf\/.*\.conf', 'plugins.sbt'],
-            \         'filetype': ['play2-html', 'play2-routes', 'play2-conf', 'scala']
+            \         'filetypes': ['play2-html', 'play2-routes', 'play2-conf', 'scala']
             \     }
             \ }
 " Swiftのシンタックスハイライト
 NeoBundleLazy 'Keithbsmiley/swift.vim', {
             \     'autoload': {
-            \         'filename_patterns': ['.*\.swift']
+            \         'filetypes': ['swift']
             \     }
             \ }
 " Haskellのシンタックスハイライトとインデンテーション
 NeoBundleLazy 'dag/vim2hs', {
             \     'autoload': {
-            \         'filetype': ['haskell']
+            \         'filetypes': ['haskell']
             \     }
             \ }
 " Shakespeare HTMLテンプレートのシンタックスハイライト
 NeoBundleLazy 'pbrisbin/vim-syntax-shakespeare', {
             \     'autoload': {
-            \         'filename_patterns': ['.*\.hamlet', '.*\.julius', '.*\.lucius']
+            \         'filetypes': ['hamlet', 'julius', 'lucius']
             \     }
             \ }
 " HaskellのためのNeocomplecacheを使った自動補完
 NeoBundleLazy 'eagletmt/neco-ghc', {
             \     'depends': [ 'Shougo/neocomplcache.vim' ],
             \     'autoload': {
-            \         'filetype': ['haskell']
+            \         'filetypes': ['haskell']
+            \     }
+            \ }
+" LLVM IRのシンタックスハイライト
+NeoBundleLazy 'qnighy/llvm.vim', {
+            \     'autoload': {
+            \         'filetypes': ['llvm']
             \     }
             \ }
 
@@ -178,7 +192,6 @@ augroup NeocomplcacheVimrcCommands
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup END
 
@@ -255,7 +268,7 @@ let g:unite_force_overwrite_statusline = 0
 augroup UniteVimrcCommands
     autocmd FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
     autocmd FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-augroup END;
+augroup END
 
 
 
@@ -282,11 +295,15 @@ noremap <silent> <Space>fv :<C-u>VimFilerBufferDir -split<CR>
 nmap <Leader>a <Plug>(altr-forward)
 " \+bで移動前のファイルに戻る
 nmap <Leader>b <Plug>(altr-back)
-" C++用の設定
-call altr#define('%.cc', '%.h')
-call altr#define('src/%.cc', 'src/%.h', 'test/src/%_test.cc')
-" Play!Framework(java)用の設定
-call altr#define('app/%.java', 'test/%Test.java')
+augroup VimAltrVimrcCommands
+    " C用の設定
+    autocmd Filetype c call altr#define('%.c', '%.h')
+    " C++用の設定
+    autocmd Filetype cpp call altr#define('%.cc', '%.h', '%.c')
+    autocmd Filetype cpp call altr#define('src/%.cc', 'src/%.h', 'test/src/%_test.cc')
+    " Play!Framework(java)用の設定
+    autocmd Filetype java call altr#define('app/%.java', 'test/%Test.java')
+augroup END
 
 
 
@@ -340,7 +357,7 @@ let g:vim_markdown_folding_disabled = 1
 " タブはスペース4つに展開
 augroup SwiftVimVimrcCommands
     autocmd FileType swift setlocal tabstop=4 shiftwidth=4
-augroup END;
+augroup END
 
 
 
@@ -353,7 +370,7 @@ nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
 " TweetVim内でsを押すと新規ツイート作成
 augroup TweetVimVimrcCommands
     autocmd FileType tweetvim nnoremap <buffer> <silent> s :<C-u>TweetVimSay<CR>
-augroup END;
+augroup END
 
 
 
@@ -429,6 +446,25 @@ nnoremap gp gT
 nnoremap <silent> gx :<C-u>tabclose<CR>
 " g+oで現在開いている以外のタブを全て閉じる
 nnoremap <silent> go :<C-u>tabonly<CR>
+
+
+
+"+--------------------------+
+"| Suffix filetypes mapping |
+"+--------------------------+
+
+augroup SuffixFiletypesMappingVimrcCommands
+    autocmd BufRead,BufNewFile *.less set filetype=less
+    autocmd BufRead,BufNewFile *.sass set filetype=sass
+    autocmd BufRead,BufNewFile *.ll set filetype=llvm
+    autocmd BufRead,BufNewFile *.scala set filetype=scala
+    autocmd BufRead,BufNewFile *.swift set filetype=swift
+    autocmd BufRead,BufNewFile *.hamlet set filetype=hamlet
+    autocmd BufRead,BufNewFile *.julius set filetype=julius
+    autocmd BufRead,BufNewFile *.lucius set filetype=lucius
+    autocmd BufRead,BufNewFile *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+augroup END
+
 
 
 "+----------------+
