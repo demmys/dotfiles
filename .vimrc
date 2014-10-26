@@ -1,6 +1,10 @@
 set encoding=utf-8
 scriptencoding utf-8
 
+" filetypeを一度オフにする
+filetype off
+filetype plugin indent off
+
 " %がHTMLタグやdef~endなどに対しても有効になる
 runtime macros/matchit.vim
 
@@ -168,6 +172,24 @@ NeoBundleCheck
 
 
 
+"+--------------------------+
+"| Suffix filetypes mapping |
+"+--------------------------+
+
+" augroup SuffixFiletypesMappingVimrcCommands
+"     autocmd BufRead,BufNewFile *.less set filetype=less
+"     autocmd BufRead,BufNewFile *.sass set filetype=sass
+"     autocmd BufRead,BufNewFile *.ll set filetype=llvm
+"     autocmd BufRead,BufNewFile *.scala set filetype=scala
+"     autocmd BufRead,BufNewFile *.swift set filetype=swift
+"     autocmd BufRead,BufNewFile *.hamlet set filetype=hamlet
+"     autocmd BufRead,BufNewFile *.julius set filetype=julius
+"     autocmd BufRead,BufNewFile *.lucius set filetype=lucius
+"     autocmd BufRead,BufNewFile *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+" augroup END
+
+
+
 "+--------------------+
 "| Neocomplecache.vim |
 "+--------------------+
@@ -186,14 +208,6 @@ let g:neocomplcache_min_syntax_length = 3
 inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " Ctrl+hで補完候補表示を閉じる
 inoremap <expr><C-h> neocomplcache#close_popup()
-" オムニ補完を有効化
-augroup NeocomplcacheVimrcCommands
-    autocmd!
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
 
 
 
@@ -264,11 +278,6 @@ endfunction
 
 " Uniteのステータスラインを自前のものにする
 let g:unite_force_overwrite_statusline = 0
-" Esc2回でUniteウィンドウを閉じる
-augroup UniteVimrcCommands
-    autocmd FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-    autocmd FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-augroup END
 
 
 
@@ -296,6 +305,7 @@ nmap <Leader>a <Plug>(altr-forward)
 " \+bで移動前のファイルに戻る
 nmap <Leader>b <Plug>(altr-back)
 augroup VimAltrVimrcCommands
+    autocmd!
     " C用の設定
     autocmd Filetype c call altr#define('%.c', '%.h')
     " C++用の設定
@@ -350,14 +360,6 @@ let g:vim_markdown_folding_disabled = 1
 
 
 
-"+-----------+
-"| Swift.vim |
-"+-----------+
-
-" タブはスペース4つに展開
-augroup SwiftVimVimrcCommands
-    autocmd FileType swift setlocal tabstop=4 shiftwidth=4
-augroup END
 
 
 
@@ -367,10 +369,6 @@ augroup END
 
 " Ctrl+tでTweetVimのUniteバッファを開く
 nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
-" TweetVim内でsを押すと新規ツイート作成
-augroup TweetVimVimrcCommands
-    autocmd FileType tweetvim nnoremap <buffer> <silent> s :<C-u>TweetVimSay<CR>
-augroup END
 
 
 
@@ -449,36 +447,9 @@ nnoremap <silent> go :<C-u>tabonly<CR>
 
 
 
-"+--------------------------+
-"| Suffix filetypes mapping |
-"+--------------------------+
-
-augroup SuffixFiletypesMappingVimrcCommands
-    autocmd BufRead,BufNewFile *.less set filetype=less
-    autocmd BufRead,BufNewFile *.sass set filetype=sass
-    autocmd BufRead,BufNewFile *.ll set filetype=llvm
-    autocmd BufRead,BufNewFile *.scala set filetype=scala
-    autocmd BufRead,BufNewFile *.swift set filetype=swift
-    autocmd BufRead,BufNewFile *.hamlet set filetype=hamlet
-    autocmd BufRead,BufNewFile *.julius set filetype=julius
-    autocmd BufRead,BufNewFile *.lucius set filetype=lucius
-    autocmd BufRead,BufNewFile *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
-augroup END
-
-
-
 "+----------------+
 "| Other settings |
 "+----------------+
-
-" プラグインによるファイルタイプごとの設定を上書き
-augroup RedifineFileTypeSpecificSettingsVimrcCommands
-    autocmd!
-    " 常に文字数による自動改行は行わない
-    autocmd FileType * setlocal textwidth=0
-augroup END
-
-
 
 " -bオプションで起動した場合にバイナリ編集モードを有効化する
 "     original by KaWaZ (http://www.kawaz.jp/pukiwiki/?vim#ib970976)
@@ -524,4 +495,31 @@ augroup AutoCursorLineVimrcCommands
             let s:cursorline_lock = 1
         endif
     endfunction
+augroup END
+
+
+
+"+--------------------+
+"| File type settings |
+"+--------------------+
+
+" filetypeを有効にする
+filetype plugin indent on
+
+augroup FileTypeVimrcCommands
+    autocmd!
+    " NeoComplcacheのオムニ補完を有効化
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    " Esc2回でUniteウィンドウを閉じる
+    autocmd FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+    autocmd FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+    " Swift.vimの設定を上書きしてタブはスペース4つに展開
+    autocmd FileType swift setlocal tabstop=4 shiftwidth=4
+    " TweetVim内でsを押すと新規ツイート作成
+    autocmd FileType tweetvim nnoremap <buffer> <silent> s :<C-u>TweetVimSay<CR>
+    " 常に文字数による自動改行は行わない
+    autocmd FileType * setlocal textwidth=0
 augroup END
