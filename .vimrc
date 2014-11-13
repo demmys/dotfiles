@@ -172,24 +172,6 @@ NeoBundleCheck
 
 
 
-"+--------------------------+
-"| Suffix filetypes mapping |
-"+--------------------------+
-
-" augroup SuffixFiletypesMappingVimrcCommands
-"     autocmd BufRead,BufNewFile *.less set filetype=less
-"     autocmd BufRead,BufNewFile *.sass set filetype=sass
-"     autocmd BufRead,BufNewFile *.ll set filetype=llvm
-"     autocmd BufRead,BufNewFile *.scala set filetype=scala
-"     autocmd BufRead,BufNewFile *.swift set filetype=swift
-"     autocmd BufRead,BufNewFile *.hamlet set filetype=hamlet
-"     autocmd BufRead,BufNewFile *.julius set filetype=julius
-"     autocmd BufRead,BufNewFile *.lucius set filetype=lucius
-"     autocmd BufRead,BufNewFile *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
-" augroup END
-
-
-
 "+--------------------+
 "| Neocomplecache.vim |
 "+--------------------+
