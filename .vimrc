@@ -117,6 +117,15 @@ NeoBundleLazy 'rcmdnk/vim-markdown', {
             \         'filetypes': ['markdown']
             \     }
             \ }
+" Markdownのプレビュー
+NeoBundleLazy 'kannokanno/previm', {
+            \     'depends': [
+            \         'open-browser.vim'
+            \     ],
+            \     'autoload': {
+            \         'filetypes': ['markdown']
+            \     }
+            \ }
 " Scalaのシンタックスハイライト
 NeoBundleLazy 'derekwyatt/vim-scala', {
             \     'autoload': {
@@ -342,6 +351,12 @@ let g:vim_markdown_folding_disabled = 1
 
 
 
+"+--------+
+"| Previm |
+"+--------+
+
+" リアルタイムプレビューを有効化
+let g:previm_enable_realtime = 1
 
 
 
