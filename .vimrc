@@ -517,13 +517,13 @@ augroup FileTypeVimrcCommands
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
     " Esc2回でUniteウィンドウを閉じる
-    autocmd FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-    autocmd FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+    autocmd FileType unite nnoremap <buffer> <silent> <ESC><ESC> :q<CR>
+    autocmd FileType unite inoremap <buffer> <silent> <ESC><ESC> <ESC>:q<CR>
     " Swift.vimの設定を上書きしてタブはスペース4つに展開
     autocmd FileType swift setlocal tabstop=4 shiftwidth=4
     " .inをOtterファイルとして認識
-    autocmd BufRead,BufNewFile *.in set filetype=otter
-    autocmd! Syntax otter source ~/.vim/bundle/Otter.vim/syntax/otter\[1\].vim
+    autocmd BufRead,BufNewFile *.in setlocal filetype=otter
+    autocmd Syntax otter source ~/.vim/bundle/Otter.vim/syntax/otter\[1\].vim
     " TweetVim内でsを押すと新規ツイート作成
     autocmd FileType tweetvim nnoremap <buffer> <silent> s :<C-u>TweetVimSay<CR>
     " 常に文字数による自動改行は行わない
