@@ -174,6 +174,12 @@ NeoBundleLazy 'qnighy/llvm.vim', {
             \         'filetypes': ['llvm']
             \     }
             \ }
+" Otterのシンタックスハイライト
+NeoBundle 'Otter.vim', {
+            \     'autoload': {
+            \         'filetypes': ['otter']
+            \     }
+            \ }
 
 call neobundle#end()
 " 起動時にプラグインがインストールされているか確認する
@@ -515,6 +521,9 @@ augroup FileTypeVimrcCommands
     autocmd FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
     " Swift.vimの設定を上書きしてタブはスペース4つに展開
     autocmd FileType swift setlocal tabstop=4 shiftwidth=4
+    " .inをOtterファイルとして認識
+    autocmd BufRead,BufNewFile *.in set filetype=otter
+    autocmd! Syntax otter source ~/.vim/bundle/Otter.vim/syntax/otter\[1\].vim
     " TweetVim内でsを押すと新規ツイート作成
     autocmd FileType tweetvim nnoremap <buffer> <silent> s :<C-u>TweetVimSay<CR>
     " 常に文字数による自動改行は行わない
