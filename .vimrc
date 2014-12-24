@@ -391,14 +391,11 @@ endfunction
 "| Vim-Go |
 "+--------+
 
-let s:bundle = neobundle#get('vim-go')
-function! s:bundle.hooks.on_source(bundle)
-    augroup VimGoVimrcCommands
-        autocmd!
-        " GoFmtコマンドを保存時に走らせる
-        autocmd BufWritePre *.go GoFmt
-    augroup END
-endfunction
+augroup VimGoVimrcCommands
+    autocmd!
+    " GoFmtコマンドを保存時に走らせる
+    autocmd BufWritePre *.go GoFmt
+augroup END
 
 
 
@@ -560,6 +557,9 @@ augroup FileTypeVimrcCommands
     autocmd FileType unite inoremap <buffer> <silent> <ESC><ESC> <ESC>:q<CR>
     " Swift.vimの設定を上書きしてタブはスペース4つに展開
     autocmd FileType swift setlocal tabstop=4 shiftwidth=4
+    " Goでは行の折り返しだけを可視化
+    autocmd FileType go setlocal nolist
+    autocmd FileType go setlocal listchars=extends:<
     " Rubyではタブをスペース2つに展開
     autocmd FileType ruby setlocal tabstop=2 shiftwidth=2
     " .inをOtterファイルとして認識
