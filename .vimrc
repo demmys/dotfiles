@@ -5,8 +5,17 @@ scriptencoding utf-8
 filetype off
 filetype plugin indent off
 
+"+---------------+
+"| Run time path |
+"+---------------+
+
 " %がHTMLタグやdef~endなどに対しても有効になる
 runtime macros/matchit.vim
+
+if has('vim_starting')
+    " NeoBundle.vimをパスに追加
+    set runtimepath+=~/.vim/bundle/neobundle.vim
+endif
 
 
 
@@ -14,9 +23,6 @@ runtime macros/matchit.vim
 "| NeoBundle.vim |
 "+---------------+
 
-if has('vim_starting')
-    set runtimepath+=~/.vim/bundle/neobundle.vim
-endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -56,7 +62,7 @@ NeoBundle 'thinca/vim-visualstar'
 " .vimrcを活かしたままsudoできる
 NeoBundle 'sudo.vim'
 " matchit.vimでマッチする文字をハイライト
-NeoBundleLazy 'vimtaku/hl_matchit.vim.git', {
+NeoBundleLazy 'vimtaku/hl_matchit.vim', {
             \     'autoload': {
             \         'filetypes': ['vim', 'verilog', 'html']
             \     }
@@ -338,13 +344,16 @@ let g:vimshell_prompt_pattern = '^\f\+\$ '
 "| HL_Matchit.vim |
 "+----------------+
 
-" Vim・BashScript・Verilog・Rubyでのみハイライトを有効化
-let g:hl_matchit_enable_on_vim_startup = 1
-let g:hl_matchit_allow_ft = 'vim,sh,verilog,ruby'
-" ハイライト時の色グループを設定
-let g:hl_matchit_hl_groupname = 'IncSearch'
-" 対応を示すのが遅くなる場合はハイライトしない
-let g:hl_matchit_speed_level = 1
+let s:bundle = neobundle#get('hl_matchit.vim')
+function! s:bundle.hooks.on_source(bundle)
+    " Vim・BashScript・Verilog・Rubyでのみハイライトを有効化
+    let g:hl_matchit_enable_on_vim_startup = 1
+    let g:hl_matchit_allow_ft = 'vim,sh,verilog,ruby'
+    " ハイライト時の色グループを設定
+    let g:hl_matchit_hl_groupname = 'IncSearch'
+    " 対応を示すのが遅くなる場合はハイライトしない
+    let g:hl_matchit_speed_level = 1
+endfunction
 
 
 
@@ -352,8 +361,11 @@ let g:hl_matchit_speed_level = 1
 "| Vim-Markdown |
 "+--------------+
 
-" 自動で折りたたまないようにする
-let g:vim_markdown_folding_disabled = 1
+let s:bundle = neobundle#get('vim-markdown')
+function! s:bundle.hooks.on_source(bundle)
+    " 自動で折りたたまないようにする
+    let g:vim_markdown_folding_disabled = 1
+endfunction
 
 
 
@@ -361,8 +373,11 @@ let g:vim_markdown_folding_disabled = 1
 "| Previm |
 "+--------+
 
-" リアルタイムプレビューを有効化
-let g:previm_enable_realtime = 1
+let s:bundle = neobundle#get('previm')
+function! s:bundle.hooks.on_source(bundle)
+    " リアルタイムプレビューを有効化
+    let g:previm_enable_realtime = 1
+endfunction
 
 
 
@@ -370,8 +385,11 @@ let g:previm_enable_realtime = 1
 "| TweetVim |
 "+----------+
 
-" Ctrl+tでTweetVimのUniteバッファを開く
-nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
+let s:bundle = neobundle#get('tweetvim')
+function! s:bundle.hooks.on_source(bundle)
+    " Ctrl+tでTweetVimのUniteバッファを開く
+    nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
+endfunction
 
 
 
