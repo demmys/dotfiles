@@ -5,10 +5,11 @@ demmy's dotfiles
 
 * C
 * C++
-* Swift
 * Java (Java8シンタックスは未対応)
 * Scala
+* Swift
 * Haskell
+* Go
 * Ruby
 * Python
 * JavaScript

@@ -174,6 +174,12 @@ NeoBundleLazy 'eagletmt/neco-ghc', {
             \         'filetypes': ['haskell']
             \     }
             \ }
+" Go言語の統合サポート
+NeoBundleLazy 'fatih/vim-go', {
+            \     'autoload': {
+            \         'filetypes': ['go']
+            \     }
+            \ }
 " LLVM IRのシンタックスハイライト
 NeoBundleLazy 'qnighy/llvm.vim', {
             \     'autoload': {
@@ -377,6 +383,21 @@ let s:bundle = neobundle#get('previm')
 function! s:bundle.hooks.on_source(bundle)
     " リアルタイムプレビューを有効化
     let g:previm_enable_realtime = 1
+endfunction
+
+
+
+"+--------+
+"| Vim-Go |
+"+--------+
+
+let s:bundle = neobundle#get('vim-go')
+function! s:bundle.hooks.on_source(bundle)
+    augroup VimGoVimrcCommands
+        autocmd!
+        " GoFmtコマンドを保存時に走らせる
+        autocmd BufWritePre *.go GoFmt
+    augroup END
 endfunction
 
 
