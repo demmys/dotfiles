@@ -403,11 +403,8 @@ augroup END
 "| TweetVim |
 "+----------+
 
-let s:bundle = neobundle#get('tweetvim')
-function! s:bundle.hooks.on_source(bundle)
-    " Ctrl+tでTweetVimのUniteバッファを開く
-    nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
-endfunction
+" Space+tでTweetVimのUniteバッファを開く
+nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
 
 
 
