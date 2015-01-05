@@ -13,6 +13,8 @@ demmy's dotfiles
 * Ruby
 * Python
 * JavaScript
+* Perl
+* PHP
 * Vim
 * Otter
 * LLVM-IR
