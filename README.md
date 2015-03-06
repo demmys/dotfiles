@@ -13,6 +13,7 @@ demmy's dotfiles
 * Ruby
 * Python
 * JavaScript
+* CoffeeScript
 * Perl
 * PHP
 * Vim
