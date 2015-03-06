@@ -485,6 +485,23 @@ nnoremap <silent> go :<C-u>tabonly<CR>
 
 
 
+"+-------------------+
+"| Variable settings |
+"+-------------------+
+
+" PHPの文字列中のHTMLをハイライトする
+let php_htmlInStrings = 1
+" PHPの標準ライブラリ関数をハイライトする
+let php_baselib = 1
+" PHPのASPスタイルタグをハイライトする
+let php_asp_tags = 1
+" PHPのショートタグをハイライトしない
+let php_noShortTags = 1
+" SQLのハイライトをMySQLベースのものにする
+let g:sql_type_default = 'mysql'
+
+
+
 "+----------------+
 "| Other settings |
 "+----------------+
