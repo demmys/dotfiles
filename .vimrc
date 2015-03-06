@@ -578,6 +578,8 @@ augroup FileTypeVimrcCommands
     autocmd FileType go setlocal listchars=extends:<
     " Rubyではタブをスペース2つに展開
     autocmd FileType ruby setlocal tabstop=2 shiftwidth=2
+    " .llをLLVM-IRファイルとして認識
+    autocmd BufRead,BufNewFile *.ll setlocal filetype=llvm
     " .inをOtterファイルとして認識
     autocmd BufRead,BufNewFile *.in setlocal filetype=otter
     autocmd Syntax otter source ~/.vim/bundle/Otter.vim/syntax/otter\[1\].vim
