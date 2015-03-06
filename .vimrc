@@ -322,6 +322,8 @@ augroup VimAltrVimrcCommands
     autocmd Filetype cpp call altr#define('src/%.cc', 'src/%.h', 'test/src/%_test.cc')
     " Play!Framework(java)用の設定
     autocmd Filetype java call altr#define('app/%.java', 'test/%Test.java')
+    " Rails用の設定
+    autocmd Filetype ruby call altr#define('app/%.rb', 'spec/%_spec.rb')
 augroup END
 
 
