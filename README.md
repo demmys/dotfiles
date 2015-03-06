@@ -74,7 +74,7 @@ $ cd dotfiles
 $ ./symlink.sh
 ```
 
-最後のコマンドを入力すると[`neobundle.vim`](https://github.com/Shougo/neobundle.vim)が`~/.vimrc/`以下にインストールされ、ホームディレクトリに`~/dotfiles`ディレクトリ内の`.vimrc`および生成された`.tmux.conf`のシンボリックリンクが作成されます。
+最後のコマンドを入力すると[`neobundle.vim`](https://github.com/Shougo/neobundle.vim)が`~/.vim/`以下にインストールされ、ホームディレクトリに`~/dotfiles`ディレクトリ内の`.vimrc`および生成された`.tmux.conf`のシンボリックリンクが作成されます。
 
 
 ### 5. Vimの初回起動とプラグインのインストール
