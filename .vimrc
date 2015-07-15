@@ -124,6 +124,12 @@ NeoBundleLazy 'kchmck/vim-coffee-script', {
             \         'filetype': ['coffee'],
             \     }
             \ }
+" Slimのシンタックスハイライトとインデンテーション
+NeoBundleLazy 'slim-template/vim-slim', {
+            \     'autoload': {
+            \         'filetypes': ['slim'],
+            \     }
+            \ }
 " Markdownのシンタックスハイライト
 NeoBundleLazy 'rcmdnk/vim-markdown', {
             \     'autoload': {
@@ -585,8 +591,15 @@ augroup FileTypeVimrcCommands
     autocmd FileType go setlocal listchars=extends:<
     " Rubyではタブをスペース2つに展開
     autocmd FileType ruby setlocal tabstop=2 shiftwidth=2
+    " YAMLではタブをスペース2つに展開
+    autocmd FileType yaml setlocal tabstop=2 shiftwidth=2
+    " Gemfile, GuardfileをRubyファイルとして認識
+    autocmd BufRead,BufNewFile Gemfile setlocal filetype=ruby
+    autocmd BufRead,BufNewFile Guardfile setlocal filetype=ruby
     " .coffeeをCoffeeScriptとして認識
     autocmd BufRead,BufNewFile *.coffee setlocal filetype=coffee
+    " CoffeeScriptではタブをスペース2つに展開
+    autocmd FileType coffee setlocal tabstop=2 shiftwidth=2
     " .llをLLVM-IRファイルとして認識
     autocmd BufRead,BufNewFile *.ll setlocal filetype=llvm
     " .inをOtterファイルとして認識
