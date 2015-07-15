@@ -61,6 +61,10 @@ NeoBundle 'Shougo/vimshell.vim', {
 NeoBundle 'thinca/vim-visualstar'
 " .vimrcを活かしたままsudoできる
 NeoBundle 'sudo.vim'
+"Unite grep的にgit grepを使える
+NeoBundle 'lambdalisue/unite-grep-vcs' , {
+          \     'depends': ['Shougo/unite.vim']
+          \ }
 " matchit.vimでマッチする文字をハイライト
 NeoBundleLazy 'vimtaku/hl_matchit.vim', {
             \     'autoload': {
@@ -298,8 +302,28 @@ endfunction
 "| Unite.vim |
 "+-----------+
 
+" Prefix keyをSpaceに
+nmap <Space> [unite]
 " Uniteのステータスラインを自前のものにする
 let g:unite_force_overwrite_statusline = 0
+
+
+
+"+--------------------+
+"| Unite-grep-vcs.vim |
+"+--------------------+
+
+" Space+ggでGitレポジトリ内の場合はgit grepを使用する
+nnoremap <silent> [unite]gg :<C-u>call <SID>unite_smart_grep()<CR>
+function! s:unite_smart_grep()
+    if unite#sources#grep_git#is_available()
+        Unite grep/git:. -buffer-name=search-buffer
+    elseif unite#sources#grep_hg#is_available()
+        Unite grep/hg:. -buffer-name=search-buffer
+    else
+        Unite grep:. -buffer-name=search-buffer
+    endif
+endfunction
 
 
 
@@ -311,10 +335,8 @@ let g:unite_force_overwrite_statusline = 0
 let g:vimfiler_force_overwrite_statusline = 0
 " VimFilerを標準のファイルマネージャーとして使う
 let g:vimfiler_as_default_explorer = 1
-" Space+ffかSpace+fs、Space+fvでカレントバッファのディレクトリを開く
-noremap <silent> <Space>ff :<C-u>VimFilerBufferDir<CR>
-noremap <silent> <Space>fs :<C-u>VimFilerBufferDir -split -horizontal<CR>
-noremap <silent> <Space>fv :<C-u>VimFilerBufferDir -split<CR>
+" Space+ffでカレントバッファのディレクトリを開く
+noremap <silent> [unite]ff :<C-u>VimFilerBufferDir<CR>
 
 
 
