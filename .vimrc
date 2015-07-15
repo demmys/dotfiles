@@ -480,6 +480,8 @@ set smartcase
 set laststatus=2
 " 常にコマンドを表示
 set showcmd
+" \+pでPasteモードと切り替え
+set pastetoggle=<leader>p
 
 
 
