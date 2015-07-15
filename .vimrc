@@ -204,7 +204,7 @@ NeoBundleLazy 'qnighy/llvm.vim', {
             \     }
             \ }
 " Otterのシンタックスハイライト
-NeoBundle 'Otter.vim', {
+NeoBundleLazy 'Otter.vim', {
             \     'autoload': {
             \         'filetypes': ['otter']
             \     }
@@ -451,8 +451,6 @@ nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
 
 " シンタックスハイライトをON
 syntax enable
-" ファイルタイプ毎の設定をON
-filetype plugin indent on
 " 行番号を表示
 set number
 " マッチするカッコを強調表示
