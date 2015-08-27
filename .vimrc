@@ -209,6 +209,12 @@ NeoBundleLazy 'Otter.vim', {
             \         'filetypes': ['otter']
             \     }
             \ }
+" Arduinoのシンタックスハイライト
+NeoBundleLazy 'sudar/vim-arduino-syntax', {
+            \     'autoload': {
+            \         'filetypes': ['arduino']
+            \     }
+            \ }
 
 call neobundle#end()
 " 起動時にプラグインがインストールされているか確認する
