@@ -593,6 +593,10 @@ augroup AutoCursorLineVimrcCommands
     endfunction
 augroup END
 
+" Renameで現在開いているファイルのファイル名を変更可能にする
+"     original by ujihisa (http://vim-jp.org/vim-users-jp/2009/05/27/Hack-17.html)
+command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
+
 
 
 "+--------------------+
