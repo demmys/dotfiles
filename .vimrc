@@ -91,6 +91,8 @@ NeoBundleLazy 'tweetvim', {
 NeoBundle 'kana/vim-altr'
 " ファイルタイプにあったコメントアウトを挿入
 NeoBundle 'tyru/caw.vim'
+" ウィンドウサイズ変更用のモードを追加
+NeoBundle 'simeji/winresizer'
 " HTMLやCSSの構文を簡単に記述できる
 NeoBundleLazy 'mattn/emmet-vim', {
             \     'autoload': {
@@ -167,7 +169,7 @@ NeoBundleLazy 'gre/play2vim', {
             \     }
             \ }
 " Swiftのシンタックスハイライト
-NeoBundleLazy 'Keithbsmiley/swift.vim', {
+NeoBundleLazy 'keith/swift.vim', {
             \     'autoload': {
             \         'filetypes': ['swift']
             \     }
@@ -488,6 +490,8 @@ set laststatus=2
 set showcmd
 " \+pでPasteモードと切り替え
 set pastetoggle=<leader>p
+" Insertモード中に<BS>で直前の文字を消せるように
+set backspace=indent,eol,start
 
 
 
@@ -616,13 +620,13 @@ augroup FileTypeVimrcCommands
     " Esc2回でUniteウィンドウを閉じる
     autocmd FileType unite nnoremap <buffer> <silent> <ESC><ESC> :q<CR>
     autocmd FileType unite inoremap <buffer> <silent> <ESC><ESC> <ESC>:q<CR>
-    " Swift.vimの設定を上書きしてタブはスペース4つに展開
-    autocmd FileType swift setlocal tabstop=4 shiftwidth=4
     " Goでは行の折り返しだけを可視化
     autocmd FileType go setlocal nolist
     autocmd FileType go setlocal listchars=extends:<
     " Rubyではタブをスペース2つに展開
     autocmd FileType ruby setlocal tabstop=2 shiftwidth=2
+    " SCSSではタブをスペース2つに展開
+    autocmd FileType scss setlocal tabstop=2 shiftwidth=2
     " YAMLではタブをスペース2つに展開
     autocmd FileType yaml setlocal tabstop=2 shiftwidth=2
     " Gemfile, GuardfileをRubyファイルとして認識
