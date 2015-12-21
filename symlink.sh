@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/data/data/com.termux/files/usr/bin/bash
 
 cd $(dirname $0)
 
@@ -22,7 +22,7 @@ rm -f ~~~tmp
 dotfiles=`ls -A | grep "^\." | grep -v "^\.git"`
 for dotfile in $dotfiles
 do
-    ln -Fis "$PWD/$dotfile" $HOME
+    ln -s "$PWD/$dotfile" $HOME
 done
 
 echo "Installed dotfiles.\nYou should launch vim and install plugins next."

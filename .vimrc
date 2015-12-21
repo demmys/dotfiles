@@ -26,26 +26,8 @@ endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-
-" 非同期コマンド実行プラグイン
-NeoBundle 'Shougo/vimproc.vim', {
-            \     'build' : {
-            \         'windows' : 'tools\\update-dll-mingw',
-            \         'cygwin' : 'make -f make_cygwin.mak',
-            \         'mac' : 'make -f make_mac.mak',
-            \         'unix' : 'make -f make_unix.mak',
-            \     }
-            \ }
 " 自動補完
 NeoBundle 'Shougo/neocomplcache.vim'
-" データ選択インターフェース
-NeoBundle 'Shougo/unite.vim', {
-            \     'depends': ['Shougo/vimproc.vim']
-            \ }
-" ファイルエクスプローラ
-NeoBundle 'Shougo/vimfiler.vim', {
-            \     'depends': ['Shougo/unite.vim']
-            \ }
 " コードスニペット集
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets', {
@@ -53,18 +35,10 @@ NeoBundle 'Shougo/neosnippet-snippets', {
             \ }
 " ステータスラインのデコレート
 NeoBundle 'itchyny/lightline.vim'
-" シェル
-NeoBundle 'Shougo/vimshell.vim', {
-            \     'depends': ['Shougo/vimproc.vim']
-            \ }
 " Visualモード時に*で選択した文字を検索できる
 NeoBundle 'thinca/vim-visualstar'
 " .vimrcを活かしたままsudoできる
 NeoBundle 'sudo.vim'
-"Unite grep的にgit grepを使える
-NeoBundle 'lambdalisue/unite-grep-vcs' , {
-          \     'depends': ['Shougo/unite.vim']
-          \ }
 " matchit.vimでマッチする文字をハイライト
 NeoBundleLazy 'vimtaku/hl_matchit.vim', {
             \     'autoload': {
@@ -73,20 +47,6 @@ NeoBundleLazy 'vimtaku/hl_matchit.vim', {
             \ }
 " Vim内でGitのコマンドを使える
 NeoBundle 'tpope/vim-fugitive'
-" Twitterクライアント
-NeoBundleLazy 'tweetvim', {
-            \     'depends': [
-            \         'Shougo/unite.vim',
-            \         'mattn/webapi-vim',
-            \         'open-browser.vim',
-            \         'basyura/twibill.vim',
-            \         'basyura/bitly.vim'
-            \     ],
-            \     'autoload': {
-            \         'commands': ['TweetVimHomeTimeline', 'TweetVimMentions'],
-            \         'unite_sources': ['tweetvim']
-            \     }
-            \ }
 " ベースネームが同じファイル間を移動する
 NeoBundle 'kana/vim-altr'
 " ファイルタイプにあったコメントアウトを挿入
@@ -289,63 +249,6 @@ function! VimrcLightLineReadOnly()
     return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'RO' : ''
 endfunction
 
-" VimFiler・VimShell・Uniteではステータス表示、それ以外はファイルパス表示
-function! VimrcLightLineFileName()
-    if &ft == 'vimfiler'
-        return vimfiler#get_status_string()
-    elseif &ft == 'unite'
-        return unite#get_status_string()
-    elseif &ft == 'vimshell'
-        return vimshell#get_status_string()
-    elseif expand('%') == ''
-        return '[No Name]'
-    else
-        return expand('%')
-    endif
-endfunction
-
-
-
-"+-----------+
-"| Unite.vim |
-"+-----------+
-
-" Prefix keyをSpaceに
-nmap <Space> [unite]
-" Uniteのステータスラインを自前のものにする
-let g:unite_force_overwrite_statusline = 0
-
-
-
-"+--------------------+
-"| Unite-grep-vcs.vim |
-"+--------------------+
-
-" Space+ggでGitレポジトリ内の場合はgit grepを使用する
-nnoremap <silent> [unite]gg :<C-u>call <SID>unite_smart_grep()<CR>
-function! s:unite_smart_grep()
-    if unite#sources#grep_git#is_available()
-        Unite grep/git:. -buffer-name=search-buffer
-    elseif unite#sources#grep_hg#is_available()
-        Unite grep/hg:. -buffer-name=search-buffer
-    else
-        Unite grep:. -buffer-name=search-buffer
-    endif
-endfunction
-
-
-
-"+--------------+
-"| VimFiler.vim |
-"+--------------+
-
-" VimFilerのステータスラインを自前のものにする
-let g:vimfiler_force_overwrite_statusline = 0
-" VimFilerを標準のファイルマネージャーとして使う
-let g:vimfiler_as_default_explorer = 1
-" Space+ffでカレントバッファのディレクトリを開く
-noremap <silent> [unite]ff :<C-u>VimFilerBufferDir<CR>
-
 
 
 "+----------+
@@ -368,26 +271,6 @@ augroup VimAltrVimrcCommands
     " Rails用の設定
     autocmd Filetype ruby call altr#define('app/%.rb', 'spec/%_spec.rb')
 augroup END
-
-
-
-"+--------------+
-"| VimShell.vim |
-"+--------------+
-
-" \+cでコメントアウトを挿入/解除
-nmap <Leader>c <Plug>(caw:i:toggle)
-vmap <Leader>c <Plug>(caw:i:toggle)
-
-
-
-"+--------------+
-"| VimShell.vim |
-"+--------------+
-
-" プロンプトに現在のディレクトリを表示
-let g:vimshell_prompt_expr = 'getcwd()." $ "'
-let g:vimshell_prompt_pattern = '^\f\+\$ '
 
 
 
@@ -441,15 +324,6 @@ augroup VimGoVimrcCommands
     " GoFmtコマンドを保存時に走らせる
     autocmd BufWritePre *.go GoFmt
 augroup END
-
-
-
-"+----------+
-"| TweetVim |
-"+----------+
-
-" Space+tでTweetVimのUniteバッファを開く
-nnoremap <silent> <Space>t :<C-u>Unite tweetvim<CR>
 
 
 
@@ -617,9 +491,6 @@ augroup FileTypeVimrcCommands
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    " Esc2回でUniteウィンドウを閉じる
-    autocmd FileType unite nnoremap <buffer> <silent> <ESC><ESC> :q<CR>
-    autocmd FileType unite inoremap <buffer> <silent> <ESC><ESC> <ESC>:q<CR>
     " Goでは行の折り返しだけを可視化
     autocmd FileType go setlocal nolist
     autocmd FileType go setlocal listchars=extends:<
@@ -641,8 +512,6 @@ augroup FileTypeVimrcCommands
     " .inをOtterファイルとして認識
     autocmd BufRead,BufNewFile *.in setlocal filetype=otter
     autocmd Syntax otter source ~/.vim/bundle/Otter.vim/syntax/otter\[1\].vim
-    " TweetVim内でsを押すと新規ツイート作成
-    autocmd FileType tweetvim nnoremap <buffer> <silent> s :<C-u>TweetVimSay<CR>
     " 常に文字数による自動改行は行わない
     autocmd FileType * setlocal textwidth=0
 augroup END
