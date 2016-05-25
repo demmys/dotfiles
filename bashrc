@@ -1,3 +1,9 @@
+if [ ! -z $BASHRC_LOADED ]
+then
+    return 0
+fi
+export BASHRC_LOADED=loaded
+
 is_available_command() {
     if command -v $1 >/dev/null 2>&1
     then
@@ -21,3 +27,5 @@ do
         PATH=$d:$PATH
     fi
 done
+
+source .bash_profile
