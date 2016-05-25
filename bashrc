@@ -28,4 +28,4 @@ do
     fi
 done
 
-source .bash_profile
+source ~/.bash_profile
