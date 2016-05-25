@@ -1,5 +1,6 @@
 if [ ! -z $BASHRC_LOADED ]
 then
+    BASHRC_LOADED=
     return 0
 fi
 export BASHRC_LOADED=loaded
