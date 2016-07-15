@@ -75,7 +75,7 @@ $ git clone https://github.com/demmys/dotfiles.git
 $ cd dotfiles
 $ ./symlink.sh
 ```
-最後のコマンドを入力すると[dein.vim](https://github.com/Shougo/dein.vim)が`~/.vim/dein/`以下にインストールされ、ホームディレクトリに各dotfilesが配置されます。
+最後のコマンドを入力するとホームディレクトリに各dotfilesが配置されます。
 
 ### 6. .bash_profileへの追記
 
@@ -85,7 +85,7 @@ source ~/.bashrc
 ```
 ### 7. Vimの初回起動とプラグインのインストール
 
-dotfilesのインストール後、Vimを起動すると自動でdeinのcloneと各プラグインのインストールが始まります。
+dotfilesのインストール後、Vimを起動すると自動で[dein](https://github.com/Shougo/dein.vim)のcloneと各プラグインのインストールが始まります。
 
 ## リモート環境でのインストール
 
