@@ -30,7 +30,7 @@ demmy's dotfiles
 * バイナリファイル
 
 
-## Mac OS Xの場合のインストール方法
+## macOSの場合のインストール方法
 
 dotfilesのインストールは必ず下記手順を全て読んでから行ってください。
 
@@ -40,7 +40,7 @@ Xcodeをインストールしていない場合は、Mac AppStoreから最新版
 
 ### 2. Command Line Tools for Xcodeのインストール
 
-[AppleのDevelopper向けダウンロードページ](https://developer.apple.com/downloads/index.action)から自分の使用しているOS XバージョンおよびXcodeバージョンに合ったCommand Line Toolsをダウンロード・インストールします。
+[AppleのDevelopper向けダウンロードページ](https://developer.apple.com/downloads/index.action)から自分の使用しているmacOSバージョンおよびXcodeバージョンに合ったCommand Line Toolsをダウンロード・インストールします。
 
 インストールが完了したらターミナルを開いて
 ```
@@ -48,23 +48,25 @@ $ git --version
 ```
 と打ち込み、Gitがインストールされていることを確認します。
 
+### 3. VimとTmuxのインストール
 
-### 3. 既存の設定の削除
-
-もし、既に他の`.tmux.conf`や`.vimrc`、Vimプラグインを使用している場合には、コンフリクトを避けるためにターミナルを開いて以下のコマンドを実行し、先に全て削除しておきます。
+以下の手順で[Homebrew](http://brew.sh/index_ja.html)をインストールした上でTmuxをインストールします。
+また、Vimについてもdotfilesの持つ機能を最大限活かすためにmacOS標準のものではなく、Homebrewを使ったものをインストールすることをおすすめします。
 ```
-$ rm -rf ~/.tmux.conf ~/.vim ~/.vimrc
-```
-
-削除したくない場合は、上記コマンドの代わりに下記のコマンドを実行して、ファイルを別の場所に移動させるといいでしょう。
-```
-$ mv ~/.tmux.conf /tmp/
-$ mv ~/.vim /tmp/
-$ mv ~/.vimrc /tmp/
+$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+$ brew install tmux
+$ brew install vim --with-lua
 ```
 
+### 4. 既存の設定の削除
 
-### 4. dotfilesのダウンロードとインストール
+もし、既にVimプラグインが`.vim`ディレクトリに配置されている場合は、コンフリクトを避けるためにターミナルを開いて以下のコマンドを実行し、削除しておきます。
+```
+$ rm -rf ~/.vim
+```
+また、ホームディレクトリに`.bashrc`、`.tmux.conf`、`.vimrc`といったファイルが存在する場合はこのdotfilesで上書きされてしまうため、残しておきたければ先に別の場所へ移動しておきます。
+
+### 5. dotfilesのダウンロードとインストール
 
 dotfilesはターミナルを開き、以下のコマンドを順に実行することで簡単にダウンロード・インストールすることができます。
 ```
@@ -73,16 +75,17 @@ $ git clone https://github.com/demmys/dotfiles.git
 $ cd dotfiles
 $ ./symlink.sh
 ```
+最後のコマンドを入力すると[dein.vim](https://github.com/Shougo/dein.vim)が`~/.vim/dein/`以下にインストールされ、ホームディレクトリに各dotfilesが配置されます。
 
-最後のコマンドを入力すると[`neobundle.vim`](https://github.com/Shougo/neobundle.vim)が`~/.vim/`以下にインストールされ、ホームディレクトリに`~/dotfiles`ディレクトリ内の`.vimrc`および生成された`.tmux.conf`のシンボリックリンクが作成されます。
+### 6. .bash_profileへの追記
 
+`.bashrc`ファイルが確実に読み込まれることを保証するために`.bash_profile`ファイルの先頭に以下を追記します。
+```bashrc
+source ~/.bashrc
+```
+### 7. Vimの初回起動とプラグインのインストール
 
-### 5. Vimの初回起動とプラグインのインストール
-
-dotfilesのインストール後、Vimを起動するとプラグインのインストールをするかどうか尋ねられるため、`y`と返答すると、即座にプラグインをインストールすることができます。
-
-dotfilesの`.vimrc`はプラグインをインストールしない限りまっとうに使用することはできませんので、必ずインストールを行うようにしてください。
-
+dotfilesのインストール後、Vimを起動すると自動でdeinのcloneと各プラグインのインストールが始まります。
 
 ## リモート環境でのインストール
 
@@ -95,11 +98,10 @@ $ $TMUX_ENV=remote ./symlink.sh
 
 とすると、プレフィックス設定がローカルでは`Ctrl-g`、リモート環境では`Ctrl-t`と分かれるので、リモート環境でもTmuxを使用できるようになります。
 
-
 ## Tmux 1.8環境でのインストール
 
 dotfilesの`.tmux.conf`はTmux 1.9以上の環境を想定して書かれていますが、バージョンが1.8系統の環境でもブランチtmux18のものであれば使用することができます。
-tmux18ブランチのものをインストールするためには、上記インストール手順4番の中で実行されていたコマンドの代わりに以下のコマンドを実行します。
+tmux18ブランチのものをインストールするためには、上記インストール手順5番の中で実行されていたコマンドの代わりに以下のコマンドを実行します。
 ```
 $ cd
 $ git clone -b tmux18 https://github.com/demmys/dotfiles.git
@@ -110,11 +112,11 @@ $ ./symlink.sh
 
 上記コマンドを実行することで、バージョン1.8用でありながらmasterブランチと全く同じ機能を持った設定ファイルをインストールすることができます。
 
-## Mac OS Xの場合のアンインストール方法
+## macOSの場合のアンインストール方法
 
 上記手順でインストールを行った場合、アンインストールは作成されたファイルやディレクトリを全て削除するだけで完了します。
 ```
-$ rm -rf ~/.vim ~/.vimrc ~/.tmux.conf ~/dotfiles
+$ rm -rf ~/.vim ~/.vimrc ~/.tmux.conf ~/.bashrc ~/dotfiles
 ```
 
 アンインストール後も上記インストール手順を踏めば再度dotfilesをインストールすることができます。
