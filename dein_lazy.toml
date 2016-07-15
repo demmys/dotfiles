@@ -1,0 +1,114 @@
+[[plugins]]
+# HTMLやCSSの構文を簡単に記述できる
+repo = 'mattn/emmet-vim'
+on_ft = ['html']
+
+[[plugins]]
+# HTML5のシンタックスハイライト
+repo = 'othree/html5.vim'
+on_ft = ['html']
+
+[[plugins]]
+# Lessのシンタックスハイライト
+repo = 'groenewege/vim-less'
+on_ft = ['less']
+
+[[plugins]]
+# CSSの色を表示
+repo = 'ap/vim-css-color'
+on_ft = ['css', 'less', 'sass']
+
+[[plugins]]
+# JavaScriptのインデンテーション
+repo = 'pangloss/vim-javascript'
+on_ft = ['javascript']
+
+[[plugins]]
+# CoffeeScriptのシンタックスハイライト
+repo = 'kchmck/vim-coffee-script'
+on_path = ['.*\.coffee']
+on_ft = ['coffee']
+
+[[plugins]]
+# Slimのシンタックスハイライトとインデンテーション
+repo = 'slim-template/vim-slim'
+on_ft = ['slim']
+
+[[plugins]]
+# Markdownのシンタックスハイライト
+repo = 'rcmdnk/vim-markdown'
+on_ft = ['markdown']
+hook_source = ''' " {{{
+    " 自動で折りたたまないようにする
+    let g:vim_markdown_folding_disabled = 1
+''' # }}}
+
+[[plugins]]
+# Markdownのプレビュー
+repo = 'kannokanno/previm'
+depends = ['open-browser.vim']
+on_ft = ['markdown']
+hook_source = ''' " {{{
+    " リアルタイムプレビューを有効化
+    let g:previm_enable_realtime = 1
+''' # }}}
+
+[[plugins]]
+# Scalaのシンタックスハイライト
+repo = 'derekwyatt/vim-scala'
+on_ft = ['scala']
+
+[[plugins]]
+# Play! Frameworkの設定ファイルをシンタックスハイライト
+repo = 'gre/play2vim'
+depends = ['derekwyatt/vim-scala', 'othree/html5.vim']
+on_path = ['.*\.scala\.html', '.*\/conf\(.*\|\)routes', '.*\/conf\/.*\.conf', 'plugins.sbt']
+on_ft = ['play2-html', 'play2-routes', 'play2-conf', 'scala']
+
+[[plugins]]
+# Swiftのシンタックスハイライト
+repo = 'keith/swift.vim'
+on_ft = ['swift']
+
+[[plugins]]
+# Haskellのシンタックスハイライトとインデンテーション
+repo = 'dag/vim2hs'
+on_ft = ['haskell']
+
+[[plugins]]
+# Shakespeare HTMLテンプレートのシンタックスハイライト
+repo = 'pbrisbin/vim-syntax-shakespeare'
+on_ft = ['hamlet', 'julius', 'lucius']
+
+[[plugins]]
+# HaskellのためのNeocomplecacheを使った自動補完
+repo = 'eagletmt/neco-ghc'
+depends = ['Shougo/neocomplcache.vim']
+on_ft = ['haskell']
+
+[[plugins]]
+# Go言語の統合サポート
+repo = 'fatih/vim-go'
+on_ft = ['go']
+hook_source = ''' " {{{
+    " GoFmtコマンドを保存時に走らせる
+    augroup GoFmtVimGoCommands
+        autocmd!
+        autocmd BufWritePre *.go GoFmt
+    augroup END
+''' # }}}
+
+[[plugins]]
+# LLVM IRのシンタックスハイライト
+repo = 'qnighy/llvm.vim'
+on_ft = ['llvm']
+
+[[plugins]]
+# Arduinoのシンタックスハイライト
+repo = 'sudar/vim-arduino-syntax'
+on_ft = ['arduino']
+
+[[plugins]]
+# TOMLのシンタックスハイライト
+repo = 'cespare/vim-toml'
+on_ft = ['toml']

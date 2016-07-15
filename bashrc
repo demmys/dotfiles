@@ -20,13 +20,10 @@ then
     PATH=/usr/local/bin:/usr/local/sbin:$PATH
 fi
 # PATH for home-build softwares
-bindirs=($HOME/bin $HOME/scripts)
-for d in ${bindirs[@]}
+PATH=$HOME/bin:$PATH
+for d in $HOME/bin/*/
 do
-    if [ -d "$d" ]
-    then
-        PATH=$d:$PATH
-    fi
+    PATH=$d:$PATH
 done
 
 source ~/.bash_profile

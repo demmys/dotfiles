@@ -1,0 +1,202 @@
+[[plugins]]
+# パッケージ管理
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+# 自動補完
+repo = 'Shougo/neocomplete.vim'
+hook_add = ''' " {{{
+    " 起動時にneocompleteを有効化する
+    let g:neocomplete#enable_at_startup = 1
+    " 大文字・小文字を区別せずに補完する
+    let g:neocomplete#enable_smart_case = 1
+    " 3文字以上入力すると補完する
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    " Tabで補完候補を選択する
+    inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    " 各ファイルタイプのオムニ補完を有効化
+    augroup OmniCompletionNeocompleteCommands
+        autocmd!
+        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+        autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    augroup END
+''' # }}}
+
+[[plugins]]
+# スニペット補完
+repo = 'Shougo/neosnippet'
+depends = ['Shougo/neocomplete.vim']
+hook_add = ''' " {{{
+    " Returnキーでスニペットを展開
+    imap <expr><CR> neosnippet#expandable_or_jumpable() ?
+        \ "\<Plug>(neosnippet_expand_or_jump)" :
+        \ pumvisible() ? "\<C-n>" : "\<CR>"
+''' # }}}
+
+[[plugins]]
+# スニペット集
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+# 文脈からファイルタイプを推測する
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+# カーソル位置の文脈でファイルタイプを変更
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+
+[[plugins]]
+# ステータスラインのデコレート
+repo = 'itchyny/lightline.vim'
+hook_add = ''' " {{{
+    let g:lightline = {
+                \     'colorscheme': 'wombat',
+                \     'active': {
+                \         'left': [
+                \             ['mode', 'paste'],
+                \             ['readonly', 'filename', 'modified']
+                \         ],
+                \         'right': [
+                \             ['lineinfo'],
+                \             ['persent'],
+                \             ['fileformat', 'fileencoding', 'filetype']
+                \         ]
+                \     },
+                \     'component_function': {
+                \         'filename': 'VimrcLightLineFileName'
+                \     },
+                \     'component_expand': {
+                \         'readonly': 'VimrcLightLineReadOnly'
+                \     },
+                \     'component_type': {
+                \         'readonly': 'error'
+                \     }
+                \ }
+    
+    " helpなど自明な場合以外はわかりやすくReadOnlyを表示
+    function! VimrcLightLineReadOnly()
+        return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'RO' : ''
+    endfunction
+    " 通常ファイル表示ではファイルパスを表示
+    function! VimrcLightLineFileName()
+        if &ft == 'vimfiler'
+            return vimfiler#get_status_string()
+        elseif &ft == 'unite'
+            return unite#get_status_string()
+        elseif expand('%') == ''
+            return '[No Name]'
+        else
+            return expand('%')
+        endif
+    endfunction
+''' # }}}
+
+[[plugins]]
+# Visualモード時に*で選択した文字を検索できる
+repo = 'thinca/vim-visualstar'
+
+[[plugins]]
+# .vimrcを活かしたままsudoできる
+repo = 'vim-scripts/sudo.vim'
+
+[[plugins]]
+# ベースネームが同じファイル間を移動する
+repo = 'kana/vim-altr'
+hook_add = ''' " {{{
+    " \+aでベースネームが同じファイルへ移動
+    nmap <Leader>a <Plug>(altr-forward)
+    " \+bで移動前のファイルに戻る
+    nmap <Leader>b <Plug>(altr-back)
+    augroup VimAltrVimrcCommands
+        autocmd!
+        " C用の設定
+        autocmd Filetype c call altr#define('%.c', '%.h')
+        " C++用の設定
+        autocmd Filetype cpp call altr#define('%.cc', '%.h', '%.c')
+        " Play!Framework(java)用の設定
+        autocmd Filetype java call altr#define('app/%.java', 'test/%Test.java')
+        " Rails用の設定
+        autocmd Filetype ruby call altr#define('app/%.rb', 'spec/%_spec.rb')
+    augroup END
+''' # }}}
+
+[[plugins]]
+# ファイルタイプにあったコメントアウトを挿入
+repo = 'tyru/caw.vim'
+hook_add = ''' " {{{
+    " \+ccなどでコメントアウトできるようcawのprefixキーをLeader+cに変更
+    nmap <Leader>c <Plug>(caw:prefix)
+    vmap <Leader>c <Plug>(caw:prefix)
+''' # }}}
+
+[[plugins]]
+# ウィンドウサイズ変更用のモードを追加
+repo = 'simeji/winresizer'
+
+[[plugins]]
+# Vim内でGitのコマンドを使える
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+# 折り畳みのテキストにインデントを反映
+repo = 'LeafCage/foldCC.vim'
+hook_add = ''' " {{{
+    " 折り畳みテキストを見やすくする
+    set foldtext=FoldCCtext()
+''' # }}}
+
+[[plugins]]
+# Vimからブラウザを開く
+repo = 'tyru/open-browser.vim'
+
+[[plugins]]
+# 非同期コマンド実行プラグイン
+repo = 'Shougo/vimproc.vim'
+hook_post_update = ''' " {{{
+    if dein#util#_is_windows()
+        let cmd = 'tools\\update-dll-mingw'
+    elseif dein#util#_is_cygwin()
+        let cmd = 'make -f make_cygwin.mak'
+    elseif executable('gmake')
+        let cmd = 'gmake'
+    else
+        let cmd = 'make'
+    endif
+    let g:dein#plugin.build = cmd
+''' # }}}
+
+[[plugins]]
+# データ選択インターフェース
+repo = 'Shougo/unite.vim'
+depends = ['vimproc.vim']
+hook_add = ''' " {{{
+    " Prefix keyをSpaceに
+    nmap <Space> [unite]
+    " Esc2回でUniteウィンドウを閉じる
+    autocmd FileType unite,vimfiler nnoremap <buffer> <silent> <ESC><ESC> :q<CR>
+    autocmd FileType unite,vimfiler inoremap <buffer> <silent> <ESC><ESC> <ESC>:q<CR>
+    " Uniteのステータスラインを自前のものにする
+    let g:unite_force_overwrite_statusline = 0
+    " Space+ggでカレントバッファのディレクトリ内をgit grep
+    nnoremap <silent> [unite]gg :<C-u>call <SID>unite_git_grep_buffer_dir()<CR>
+    function! s:unite_git_grep_buffer_dir()
+        exec ':Unite grep/git:' . expand('%:h')
+    endfunction
+''' # }}}
+
+[[plugins]]
+# ファイルエクスプローラ
+repo = 'Shougo/vimfiler.vim'
+depends = ['unite.vim']
+hook_add = ''' " {{{
+    " VimFilerのステータスラインを自前のものにする
+    let g:vimfiler_force_overwrite_statusline = 0
+    " VimFilerを標準のファイルマネージャーとして使う
+    let g:vimfiler_as_default_explorer = 1
+    " Space+ffでカレントバッファのディレクトリを開く
+    noremap <silent> [unite]ff :<C-u>VimFilerBufferDir<CR>
+''' # }}}
