@@ -153,8 +153,6 @@ hook_add = ''' " {{{
 # 折り畳みのテキストにインデントを反映
 repo = 'soramugi/auto-ctags.vim'
 hook_add = ''' " {{{
-    " ファイル保存時にctagsを更新
-    let g:auto_ctags = 1
     " git管理されているディレクトリ内ではルートディレクトリにtagsを作成する
     if system('git rev-parse --is-inside-work-tree') == "true\n"
         let s:git_root_dir = substitute(system('git rev-parse --show-toplevel'), '\n$', '', '')
