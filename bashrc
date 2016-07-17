@@ -4,6 +4,7 @@ then
     return 0
 fi
 export BASHRC_LOADED=loaded
+source ~/.bash_profile
 
 is_available_command() {
     if command -v $1 >/dev/null 2>&1
@@ -21,9 +22,11 @@ then
 fi
 # PATH for home-build softwares
 PATH=$HOME/bin:$PATH
-for d in $HOME/bin/*/
+for d in $HOME/bin/*
 do
-    PATH=$d:$PATH
+    if [ -d $d ]
+    then
+        PATH=$d:$PATH
+    fi
 done
-
-source ~/.bash_profile
+export PATH
