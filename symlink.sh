@@ -24,20 +24,6 @@ add_settings_tail() {
 setup_bash() {
     local tmpfile=/tmp/bashrc.tail
     touch $tmpfile
-    if is_available_command "pyenv"
-    then
-        add_settings_head $tmpfile "pyenv"
-        pyenv init - >> $tmpfile
-        add_settings_tail $tmpfile
-    fi
-
-    if is_available_command "rbenv"
-    then
-        add_settings_head $tmpfile "rbenv"
-        rbenv init - >> $tmpfile
-        add_settings_tail $tmpfile
-    fi
-
     if is_available_command "direnv"
     then
         add_settings_head $tmpfile "direnv"
