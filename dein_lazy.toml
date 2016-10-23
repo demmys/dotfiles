@@ -117,4 +117,12 @@ on_ft = ['toml']
 # Excelファイルのプレビュー
 repo = 'demmys/excelview-vim'
 depends = ['webapi-vim']
+on_path = ['.*\.xlsx']
 on_cmd = ['ExcelView']
+hook_source = ''' " {{{
+    " Excelファイルをexcelview-vimで開く
+    augroup ExcelviewVimOpenExcel
+        autocmd!
+        autocmd BufReadCmd *.xlsx silent bdelete | execute 'ExcelView' expand("<afile>")
+    augroup END
+''' # }}}
