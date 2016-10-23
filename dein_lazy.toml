@@ -112,3 +112,9 @@ on_ft = ['arduino']
 # TOMLのシンタックスハイライト
 repo = 'cespare/vim-toml'
 on_ft = ['toml']
+
+[[plugins]]
+# Excelファイルのプレビュー
+repo = 'demmys/excelview-vim'
+depends = ['webapi-vim']
+on_cmd = ['ExcelView']

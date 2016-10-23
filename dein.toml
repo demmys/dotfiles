@@ -228,3 +228,7 @@ hook_add = ''' " {{{
     " Space+ffでカレントバッファのディレクトリを開く
     noremap <silent> [unite]ff :<C-u>VimFilerBufferDir<CR>
 ''' # }}}
+
+[[plugins]]
+# WEBインターフェースライブラリ
+repo = 'mattn/webapi-vim'
