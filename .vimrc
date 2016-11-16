@@ -142,7 +142,7 @@ nnoremap <silent> go :<C-u>tabonly<CR>
 " 色設定 {{{
 """
 " 折り畳んだ箇所を行番号と同じ色にする
-highlight Folded ctermfg=130 ctermbg=0
+execute 'highlight Folded ctermfg=' . synIDattr(hlID('LineNr'), 'fg') . ' ctermbg=0'
 " }}}
 
 """
