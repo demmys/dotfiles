@@ -30,6 +30,12 @@ setup_bash() {
         direnv hook bash >> $tmpfile
         add_settings_tail $tmpfile
     fi
+    if is_available_command "anyenv"
+    then
+        add_settings_head $tmpfile "anyenv"
+        anyenv init - >> $tmpfile
+        add_settings_tail $tmpfile
+    fi
     cat $SCRIPT_DIR/bashrc $tmpfile > $HOME/.bashrc
     rm -f $tmpfile
 }
