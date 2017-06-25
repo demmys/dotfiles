@@ -17,7 +17,6 @@ demmy's dotfiles
 * Perl
 * PHP
 * Vim
-* Otter
 * LLVM-IR
 * Verilog
 * Markdown
@@ -25,8 +24,6 @@ demmy's dotfiles
 * CSS
 * Less
 * Ruby on Rails
-* Play! Framework
-* Yesod
 * バイナリファイル
 
 

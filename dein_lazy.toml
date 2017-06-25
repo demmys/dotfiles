@@ -59,13 +59,6 @@ repo = 'derekwyatt/vim-scala'
 on_ft = ['scala']
 
 [[plugins]]
-# Play! Frameworkの設定ファイルをシンタックスハイライト
-repo = 'gre/play2vim'
-depends = ['derekwyatt/vim-scala', 'othree/html5.vim']
-on_path = ['.*\.scala\.html', '.*\/conf\(.*\|\)routes', '.*\/conf\/.*\.conf', 'plugins.sbt']
-on_ft = ['play2-html', 'play2-routes', 'play2-conf', 'scala']
-
-[[plugins]]
 # Swiftのシンタックスハイライト
 repo = 'keith/swift.vim'
 on_ft = ['swift']
@@ -74,11 +67,6 @@ on_ft = ['swift']
 # Haskellのシンタックスハイライトとインデンテーション
 repo = 'dag/vim2hs'
 on_ft = ['haskell']
-
-[[plugins]]
-# Shakespeare HTMLテンプレートのシンタックスハイライト
-repo = 'pbrisbin/vim-syntax-shakespeare'
-on_ft = ['hamlet', 'julius', 'lucius']
 
 [[plugins]]
 # HaskellのためのNeocomplecacheを使った自動補完
