@@ -33,7 +33,7 @@ setup_bash() {
     if is_available_command "anyenv"
     then
         add_settings_head $tmpfile "anyenv"
-        anyenv init - >> $tmpfile
+        echo 'eval "$(anyenv init -)"' >> $tmpfile
         add_settings_tail $tmpfile
     fi
     cat $SCRIPT_DIR/bashrc $tmpfile > $HOME/.bashrc
