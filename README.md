@@ -1,11 +1,11 @@
 demmy's dotfiles
 ========
 
-## このVim設定で使用実績のある言語・フレームワーク
+## このVim設定でたぶん対象にできている言語
 
 * C
 * C++
-* Java (Java8シンタックスは未対応)
+* Java
 * Scala
 * Swift
 * Haskell
@@ -14,6 +14,7 @@ demmy's dotfiles
 * Python
 * JavaScript
 * CoffeeScript
+* Pug
 * Perl
 * PHP
 * Vim

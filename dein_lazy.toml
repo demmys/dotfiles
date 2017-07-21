@@ -35,6 +35,11 @@ repo = 'slim-template/vim-slim'
 on_ft = ['slim']
 
 [[plugins]]
+# Pug(旧Jade)のシンタックスハイライトとインデンテーション
+repo = 'digitaltoad/vim-pug'
+on_ft = ['pug', 'jade']
+
+[[plugins]]
 # Markdownのシンタックスハイライト
 repo = 'rcmdnk/vim-markdown'
 on_ft = ['markdown']

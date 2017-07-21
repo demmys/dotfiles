@@ -222,6 +222,8 @@ augroup FileTypeVimrcCommands
     autocmd BufRead,BufNewFile *.coffee setlocal filetype=coffee
     " CoffeeScriptではタブをスペース2つに展開
     autocmd FileType coffee setlocal tabstop=2 shiftwidth=2
+    " .jadeをPugとして認識
+    autocmd BufRead,BufNewFile *.jade setlocal filetype=pug
     " .llをLLVM-IRファイルとして認識
     autocmd BufRead,BufNewFile *.ll setlocal filetype=llvm
     " 常に文字数による自動改行は行わない
