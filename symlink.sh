@@ -33,7 +33,8 @@ setup_bash() {
     if is_available_command "anyenv"
     then
         add_settings_head $tmpfile "anyenv"
-        echo 'eval "$(anyenv init -)"' >> $tmpfile
+        echo 'export ANYENV_ROOT=$HOME/.anyenv' >> $tmpfile
+        echo 'eval "$(env PATH=$PATH:$ANYENV_ROOT/libexec $ANYENV_ROOT/libexec/anyenv-init - --no-rehash)"' >> $tmpfile
         add_settings_tail $tmpfile
     fi
     cat $SCRIPT_DIR/bashrc $tmpfile > $HOME/.bashrc
