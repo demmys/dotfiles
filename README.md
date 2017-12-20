@@ -52,7 +52,7 @@ $ git --version
 また、Vimについてもdotfilesの持つ機能を最大限活かすためにmacOS標準のものではなく、Homebrewを使ったものをインストールすることをおすすめします。
 ```
 $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-$ brew install tmux
+$ brew install tmux lua
 $ brew install vim --with-lua
 ```
 
