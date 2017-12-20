@@ -7,6 +7,7 @@ demmy's dotfiles
 * C++
 * Java
 * Scala
+* Kotlin
 * Swift
 * Haskell
 * Go
