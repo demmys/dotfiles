@@ -72,12 +72,18 @@ on_ft = ['swift']
 # Haskellのシンタックスハイライトとインデンテーション
 repo = 'dag/vim2hs'
 on_ft = ['haskell']
+hook_add = ''' " {{{
+    let g:haskell_conceal = 0
+    let g:haskell_conceal_enumerations = 0
+''' # }}}
 
 [[plugins]]
 # HaskellのためのNeocomplecacheを使った自動補完
 repo = 'eagletmt/neco-ghc'
-depends = ['Shougo/neocomplcache.vim']
 on_ft = ['haskell']
+hook_add = ''' " {{{
+    setlocal omnifunc=necoghc#omnifunc
+''' # }}}
 
 [[plugins]]
 # Go言語の統合サポート
