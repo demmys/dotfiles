@@ -130,3 +130,8 @@ hook_source = ''' " {{{
 # Kotlinのシンタックスハイライト
 repo = 'udalov/kotlin-vim'
 on_ft = ['kotlin']
+
+[[plugins]]
+# TypeScriptのシンタックスハイライト
+repo = 'leafgarland/typescript-vim'
+on_path = ['.*\.ts', '.*\.tsx']

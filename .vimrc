@@ -226,6 +226,8 @@ augroup FileTypeVimrcCommands
     autocmd FileType haskell setlocal foldmethod=marker
     " .jadeをPugとして認識
     autocmd BufRead,BufNewFile *.jade setlocal filetype=pug
+    " Pugではタブをスペース2つに展開
+    autocmd FileType pug setlocal tabstop=2 shiftwidth=2
     " .llをLLVM-IRファイルとして認識
     autocmd BufRead,BufNewFile *.ll setlocal filetype=llvm
     " 常に文字数による自動改行は行わない
