@@ -90,6 +90,8 @@ hook_add = ''' " {{{
 repo = 'fatih/vim-go'
 on_ft = ['go']
 hook_source = ''' " {{{
+    " 新規Goファイル作成時にテンプレートを使用しない
+    let g:go_template_autocreate = 0
     " GoFmtコマンドを保存時に走らせる
     augroup GoFmtVimGoCommands
         autocmd!
