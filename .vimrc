@@ -209,6 +209,12 @@ augroup FileTypeVimrcCommands
     " Goではタブは可視化せず行の折り返しだけを可視化
     autocmd FileType go setlocal nolist
     autocmd FileType go setlocal listchars=extends:<
+    " TypeScriptではタブをスペース2つに展開
+    autocmd FileType typescript setlocal tabstop=2 shiftwidth=2
+    " JavaScriptではタブをスペース2つに展開
+    autocmd FileType javascript setlocal tabstop=2 shiftwidth=2
+    " JSONではタブをスペース2つに展開
+    autocmd FileType json setlocal tabstop=2 shiftwidth=2
     " Rubyではタブをスペース2つに展開
     autocmd FileType ruby setlocal tabstop=2 shiftwidth=2
     " SCSSではタブをスペース2つに展開
