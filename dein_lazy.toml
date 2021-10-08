@@ -137,3 +137,13 @@ on_ft = ['kotlin']
 # TypeScriptのシンタックスハイライト
 repo = 'leafgarland/typescript-vim'
 on_path = ['.*\.ts', '.*\.tsx']
+
+[[plugins]]
+# JavaScriptで書かれたReactのシンタックスハイライト
+repo = 'mxw/vim-jsx'
+on_path = ['.*\.jsx']
+
+[[plugins]]
+# TypeScriptで書かれたReactのシンタックスハイライト
+repo = 'peitalin/vim-jsx-typescript'
+on_path = ['.*\.tsx']
