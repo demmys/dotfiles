@@ -1,10 +1,10 @@
-if [ ! -z $BASHRC_LOADED ]
+if [ ! -z $ZSHRC_LOADED ]
 then
-    BASHRC_LOADED=
+    ZSHRC_LOADED=
     return 0
 fi
-export BASHRC_LOADED=loaded
-source ~/.bash_profile
+export ZSHRC_LOADED=loaded
+source ~/.zprofile
 
 is_available_command() {
     if command -v $1 >/dev/null 2>&1
@@ -21,12 +21,15 @@ then
     PATH=/usr/local/bin:/usr/local/sbin:$PATH
 fi
 # PATH for home-build softwares
-PATH=$HOME/bin:$PATH
-for d in $HOME/bin/*
-do
-    if [ -d $d ]
-    then
-        PATH=$d:$PATH
-    fi
-done
+if [ -d "$HOME/bin" ]
+then
+    PATH=$HOME/bin:$PATH
+    for d in $HOME/bin/*
+    do
+        if [ -d $d ]
+        then
+            PATH=$d:$PATH
+        fi
+    done
+fi
 export PATH

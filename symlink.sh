@@ -21,13 +21,13 @@ add_settings_tail() {
     echo "fi" >> $1
 }
 
-setup_bash() {
-    local tmpfile=/tmp/bashrc.tail
+setup_zsh() {
+    local tmpfile=/tmp/zshrc.tail
     touch $tmpfile
     if is_available_command "direnv"
     then
         add_settings_head $tmpfile "direnv"
-        direnv hook bash >> $tmpfile
+        direnv hook zsh >> $tmpfile
         add_settings_tail $tmpfile
     fi
     if is_available_command "anyenv"
@@ -37,7 +37,7 @@ setup_bash() {
         echo 'eval "$(env PATH=$PATH:$ANYENV_ROOT/libexec $ANYENV_ROOT/libexec/anyenv-init - --no-rehash)"' >> $tmpfile
         add_settings_tail $tmpfile
     fi
-    cat $SCRIPT_DIR/bashrc $tmpfile > $HOME/.bashrc
+    cat $SCRIPT_DIR/zshrc $tmpfile > $HOME/.zshrc
     rm -f $tmpfile
 }
 
@@ -66,8 +66,8 @@ setup_tmux() {
     rm -f $tmpfile
 }
 
-# .bashrc
-setup_bash
+# .zshrc
+setup_zsh
 # .vimrc
 if is_available_command "vim"
 then
@@ -84,5 +84,5 @@ else
 fi
 echo "Installed dotfiles."
 echo "Next actions:"
-echo '* Add "source $HOME/.bashrc" to your .bash_profile'
+echo '* Add "source $HOME/.zshrc" to your .zprofile'
 echo "* Launch vim and install plugins."
