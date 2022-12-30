@@ -19,9 +19,10 @@ repo = 'ap/vim-css-color'
 on_ft = ['css', 'less', 'sass']
 
 [[plugins]]
-# JavaScriptのインデンテーション
-repo = 'pangloss/vim-javascript'
-on_ft = ['javascript']
+# JavaScriptのシンタックスハイライト
+repo = 'neoclide/vim-jsx-improve'
+on_ft = ['javascript', 'javascriptreact']
+on_path = ['.*\.jsx']
 
 [[plugins]]
 # CoffeeScriptのシンタックスハイライト
@@ -136,12 +137,8 @@ on_ft = ['kotlin']
 [[plugins]]
 # TypeScriptのシンタックスハイライト
 repo = 'leafgarland/typescript-vim'
+on_ft = ['typescript', 'typescriptreact']
 on_path = ['.*\.ts', '.*\.tsx']
-
-[[plugins]]
-# JavaScriptで書かれたReactのシンタックスハイライト
-repo = 'mxw/vim-jsx'
-on_path = ['.*\.jsx']
 
 [[plugins]]
 # TypeScriptで書かれたReactのシンタックスハイライト

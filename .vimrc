@@ -214,6 +214,9 @@ augroup FileTypeVimrcCommands
     " TypeScriptではタブをスペース2つに展開
     autocmd FileType typescript setlocal tabstop=2 shiftwidth=2
     autocmd FileType typescriptreact setlocal tabstop=2 shiftwidth=2
+    " JavaScriptではタブをスペース2つに展開
+    autocmd FileType javascript setlocal tabstop=2 shiftwidth=2
+    autocmd FileType javascriptreact setlocal tabstop=2 shiftwidth=2
     " Vueではタブをスペース2つに展開
     autocmd FileType vue setlocal tabstop=2 shiftwidth=2
     " JSONではタブをスペース2つに展開
