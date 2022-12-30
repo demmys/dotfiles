@@ -25,6 +25,32 @@ hook_add = ''' " {{{
 [[plugins]]
 # 文脈からファイルタイプを推測する
 repo = 'Shougo/context_filetype.vim'
+hook_add = ''' " {{{
+    " styled-componentsのシンタックス切り替え
+    let g:context_filetype#filetypes = {
+    \   'javascriptreact': [
+    \       {
+    \           'start': '^.*styled[.(][^`]\+`$',
+    \           'end': '^\s*`;\?$',
+    \           'filetype': 'scss',
+    \       }
+    \   ],
+    \   'typescriptreact': [
+    \       {
+    \           'start': '^.*styled[.(][^`]+`$',
+    \           'end': '^\s*`;?$',
+    \           'filetype': 'scss',
+    \       }
+    \   ],
+    \   'scss': [
+    \       {
+    \           'start': '\${',
+    \           'end': '}[^}]*$',
+    \           'filetype': 'typescript',
+    \       }
+    \   ],
+    \}
+''' # }}}
 
 [[plugins]]
 # カーソル位置の文脈でファイルタイプを変更
