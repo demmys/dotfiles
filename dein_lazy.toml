@@ -142,5 +142,10 @@ on_path = ['.*\.ts', '.*\.tsx']
 
 [[plugins]]
 # TypeScriptで書かれたReactのシンタックスハイライト
-repo = 'peitalin/vim-jsx-typescript'
+repo = 'maxmvsk/vim-jsx-typescript'
 on_path = ['.*\.tsx']
+
+[[plugins]]
+# Styled-componentsのシンタックスハイライト
+repo = 'styled-components/vim-styled-components'
+on_path = ['.*\.jsx', '.*\.tsx']

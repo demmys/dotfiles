@@ -70,7 +70,9 @@ set shiftwidth=4
 set expandtab
 set smarttab
 " 自動インデントをON
-set smartindent
+set cindent
+" case文はswitch文と同じインデントでcase文の中は1インデント
+set cinoptions=:0,=1s
 " 新しいウィンドウを開く際に現在のウィンドウの位置が変わらないように
 set splitright
 set splitbelow
