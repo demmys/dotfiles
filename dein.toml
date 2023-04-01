@@ -3,23 +3,47 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
-# 自動補完
-repo = 'Shougo/deoplete.nvim'
-hook_add = ''' " {{{
-    " NeoVimから起動していない場合は依存プラグインを追加
-    if !has('nvim')
-        call dein#add('roxma/nvim-yarp')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-    endif
-    " 起動時にdeopleteを有効化する
-    let g:deoplete#enable_at_startup = 1
+# ddc.vimで利用するフレームワーク
+repo = 'vim-denops/denops.vim'
 
-    " 大文字・小文字を区別せずに補完する
-    call deoplete#custom#option('smart_case', v:true)
-    " 3文字以上入力すると補完する
-    call deoplete#custom#option('min_pattern_length', 3)
-    " Tabで補完候補を選択する
-    inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+[[plugins]]
+# 自動補完
+repo = 'Shougo/ddc.vim'
+depends = ['denops.vim']
+hook_add = ''' " {{{
+    " UIプラグイン
+    call dein#add('Shougo/ddc-ui-native')
+    " 周辺のキーワードから補完するソースプラグイン
+    call dein#add('Shougo/ddc-source-around')
+    " ファイルパスを補完するソースプラグイン
+    call dein#add('LumaKernel/ddc-source-file')
+    " 先頭文字で補完するフィルタープラグイン
+    call dein#add('Shougo/ddc-filter-matcher_head')
+    " 候補をマッチ順で並べるフィルタープラグイン
+    call dein#add('Shougo/ddc-filter-sorter_rank')
+
+    " UIを適用
+    call ddc#custom#patch_global('ui', 'native')
+    " ソースプラグインを適用
+    call ddc#custom#patch_global('sources', ['around', 'file'])
+    " フィルタープラグインを適用
+    call ddc#custom#patch_global('sourceOptions', #{
+      \ _: #{
+      \   matchers: ['matcher_head'],
+      \   sorters: ['sorter_rank']},
+      \ })
+
+    " Tabで補完候補を選択
+    inoremap <silent><expr> <TAB>
+    \ pumvisible() ? '<C-n>' :
+    \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+    \ '<TAB>' : ddc#map#manual_complete()
+
+    " Shift+Tabで補完候補を遡る
+    inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+
+    " ddcを有効化
+    call ddc#enable()
 ''' # }}}
 
 [[plugins]]

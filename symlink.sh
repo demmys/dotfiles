@@ -50,6 +50,7 @@ setup_vim() {
     ln -Fis $SCRIPT_DIR/dein.toml $rcdir
     ln -Fis $SCRIPT_DIR/dein_lazy.toml $rcdir
     ln -Fis $SCRIPT_DIR/.vimrc $HOME
+    ln -Fis $SCRIPT_DIR/.vimrc $HOME/.config/nvim/init.vim
 }
 
 setup_tmux() {
