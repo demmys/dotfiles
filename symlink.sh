@@ -41,16 +41,16 @@ setup_zsh() {
     rm -f $tmpfile
 }
 
-setup_vim() {
-    local rcdir=$HOME/.vim/rc
+setup_neovim() {
+    local nvimdir=$HOME/.config/nvim
+    local rcdir=$nvimdir/rc
     if [ ! -d $rcdir ]
     then
         mkdir -p $rcdir
     fi
     ln -Fis $SCRIPT_DIR/dein.toml $rcdir
     ln -Fis $SCRIPT_DIR/dein_lazy.toml $rcdir
-    ln -Fis $SCRIPT_DIR/.vimrc $HOME
-    ln -Fis $SCRIPT_DIR/.vimrc $HOME/.config/nvim/init.vim
+    ln -Fis $SCRIPT_DIR/init.vim $nvimdir/init.vim
 }
 
 setup_tmux() {
@@ -69,12 +69,12 @@ setup_tmux() {
 
 # .zshrc
 setup_zsh
-# .vimrc
-if is_available_command "vim"
+# Neovim
+if is_available_command "nvim"
 then
-    setup_vim
+    setup_neovim
 else
-    echo "Vim is not installed. Settings for Vim was skipped."
+    echo "Neovim is not installed. Settings for Neovim was skipped."
 fi
 # .tmux.conf
 if is_available_command "tmux"
@@ -86,4 +86,4 @@ fi
 echo "Installed dotfiles."
 echo "Next actions:"
 echo '* Add "source $HOME/.zshrc" to your .zprofile'
-echo "* Launch vim and install plugins."
+echo "* Launch nvim and install plugins."
