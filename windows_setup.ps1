@@ -79,7 +79,6 @@ function New-SafeSymbolicLink {
 }
 
 $repoRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }
-$home = [Environment]::GetFolderPath('UserProfile')
 $nvimConfigDir = Join-Path -Path $env:LOCALAPPDATA -ChildPath 'nvim'
 $nvimRcDir = Join-Path -Path $nvimConfigDir -ChildPath 'rc'
 
@@ -101,7 +100,7 @@ $links = @(
     },
     @{
         Source = Join-Path -Path $repoRoot -ChildPath '.wezterm.lua'
-        Destination = Join-Path -Path $home -ChildPath '.wezterm.lua'
+        Destination = Join-Path -Path $HOME -ChildPath '.wezterm.lua'
     }
 )
 

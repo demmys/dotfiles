@@ -29,6 +29,43 @@ demmy's dotfiles
 * バイナリファイル
 
 
+
+## Windows のセットアップ
+
+`windows_setup.ps1` スクリプトは、Neovim と WezTerm 向けの Windows 用シンボリックリンクを作成します。
+Neovim は winget でインストールした構成を前提としています。
+
+### 1. 前提条件
+
+- PowerShell 5.0 以降を備えた Windows 10 以上。
+- シンボリックリンクを許可するために、開発者モードの有効化または管理者権限の PowerShell セッション。
+- 実行ポリシーが `RemoteSigned` であること（必要に応じて `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` を実行）。
+- Git がインストールされていること。未インストールの場合は winget などで導入してください。
+
+### 2. 必要なアプリのインストール
+
+```powershell
+PS> winget install Neovim.Neovim
+PS> winget install WezTerm.WezTerm
+```
+
+- 既にインストール済みの場合は、この手順はスキップできます。
+
+### 3. スクリプトの実行
+
+```powershell
+PS> git clone https://github.com/demmys/dotfiles.git
+PS> Set-Location dotfiles
+PS> .\windows_setup.ps1
+```
+
+- 既存の設定ファイルを置き換える必要がある場合は、`-Force` オプションを付けて実行します。
+
+### 4. 実行後の確認
+
+- Neovim を起動して `dein` がプラグインをインストールできるか確認します。
+- WezTerm を再起動して新しい設定が読み込まれるか確認します。
+
 ## macOSの場合のインストール方法
 
 dotfilesのインストールは必ず下記手順を全て読んでから行ってください。

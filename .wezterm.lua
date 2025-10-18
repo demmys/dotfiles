@@ -61,6 +61,8 @@ local config = {
 
     -- タブ関連
     { key = "c", mods = "LEADER", action = wezterm.action { SpawnTab = "CurrentPaneDomain" } },
+    { key = "n", mods = "LEADER", action = wezterm.action { ActivateTabRelative = 1 } },
+    { key = "p", mods = "LEADER", action = wezterm.action { ActivateTabRelative = -1 } },
     { key = "1", mods = "LEADER", action = wezterm.action { ActivateTab = 0 } },
     { key = "2", mods = "LEADER", action = wezterm.action { ActivateTab = 1 } },
     { key = "3", mods = "LEADER", action = wezterm.action { ActivateTab = 2 } },
