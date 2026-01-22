@@ -148,6 +148,17 @@ repo = 'simeji/winresizer'
 repo = 'tpope/vim-fugitive'
 
 [[plugins]]
+# git diffのある行にマークを付ける
+repo = 'airblade/vim-gitgutter'
+hook_add = ''' " {{{
+    let g:gitgutter_highlight_lines = 1
+    " 1. ハンク（差分箇所）間の移動
+    " ]c で次へ、 [c で前へ（Vim標準のdiff移動と共通）
+    nmap ]c <Plug>(GitGutterNextHunk)
+    nmap [c <Plug>(GitGutterPrevHunk)
+''' # }}}
+
+[[plugins]]
 # 折り畳みのテキストにインデントを反映
 repo = 'LeafCage/foldCC.vim'
 hook_add = ''' " {{{
