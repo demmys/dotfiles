@@ -11,17 +11,6 @@ repo = 'vim-denops/denops.vim'
 repo = 'Shougo/ddc.vim'
 depends = ['denops.vim']
 hook_add = ''' " {{{
-    " UIプラグイン
-    call dein#add('Shougo/ddc-ui-native')
-    " 周辺のキーワードから補完するソースプラグイン
-    call dein#add('Shougo/ddc-source-around')
-    " ファイルパスを補完するソースプラグイン
-    call dein#add('LumaKernel/ddc-source-file')
-    " 先頭文字で補完するフィルタープラグイン
-    call dein#add('Shougo/ddc-filter-matcher_head')
-    " 候補をマッチ順で並べるフィルタープラグイン
-    call dein#add('Shougo/ddc-filter-sorter_rank')
-
     " UIを適用
     call ddc#custom#patch_global('ui', 'native')
     " ソースプラグインを適用
@@ -45,6 +34,26 @@ hook_add = ''' " {{{
     " ddcを有効化
     call ddc#enable()
 ''' # }}}
+
+# UIプラグイン
+[[plugins]]
+repo = 'Shougo/ddc-ui-native'
+
+[[plugins]]
+# 周辺のキーワードから補完するソースプラグイン
+repo = 'Shougo/ddc-source-around'
+
+[[plugins]]
+# ファイルパスを補完するソースプラグイン
+repo = 'LumaKernel/ddc-source-file'
+
+[[plugins]]
+# 先頭文字で補完するフィルタープラグイン
+repo = 'Shougo/ddc-filter-matcher_head'
+
+[[plugins]]
+# 候補をマッチ順で並べるフィルタープラグイン
+repo = 'Shougo/ddc-filter-sorter_rank'
 
 [[plugins]]
 # 文脈からファイルタイプを推測する

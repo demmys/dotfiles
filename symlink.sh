@@ -48,8 +48,8 @@ setup_neovim() {
     then
         mkdir -p $rcdir
     fi
-    ln -Fis $SCRIPT_DIR/dein.toml $rcdir
-    ln -Fis $SCRIPT_DIR/dein_lazy.toml $rcdir
+    ln -Fis $SCRIPT_DIR/dein.toml $rcdir/dein.toml
+    ln -Fis $SCRIPT_DIR/dein_lazy.toml $rcdir/dein_lazy.toml
     ln -Fis $SCRIPT_DIR/init.vim $nvimdir/init.vim
 }
 
