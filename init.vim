@@ -176,6 +176,74 @@ augroup END
 " ===== Rename command =====
 command! -nargs=1 -complete=file Rename file %:h/<args>|call delete(expand('#'))
 
+" ===== LSP and Treesitter Settings (Lua) =====
+lua << EOF
+-- 安全にモジュールをロードする関数
+local function safe_require(module_name)
+  local status, module = pcall(require, module_name)
+  if not status then return nil end
+  return module
+end
+
+-- Mason: LSPサーバのマネージャ
+local mason = safe_require("mason")
+local mason_lspconfig = safe_require("mason-lspconfig")
+if mason and mason_lspconfig then
+  mason.setup()
+  mason_lspconfig.setup({
+    ensure_installed = { "gopls" },
+  })
+end
+
+-- Masonのバイナリパスを優先的に追加 (vim.lsp.config が gopls を見つけられるようにする)
+local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
+vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
+
+-- lspconfigの利用
+local ok, gopls_data = pcall(require, "lspconfig.configs.gopls")
+if ok and gopls_data then
+  local config = vim.tbl_deep_extend("force", gopls_data.default_config, {
+    -- エラーの原因である lspconfig の root_dir を、Neovim標準の安定した関数で上書き
+    root_dir = function(fname)
+      return vim.fs.root(fname, { 'go.work', 'go.mod', '.git' })
+    end,
+    settings = {
+      gopls = {
+        analyses = { unusedparams = true },
+        staticcheck = true,
+        gofumpt = true,
+      },
+    },
+  })
+
+  -- Neovim本体にLSP設定を登録
+  vim.lsp.config("gopls", config)
+  -- LSPを有効化
+  vim.lsp.enable("gopls")
+end
+
+-- Treesitter: ハイライト設定
+local ts_configs = safe_require("nvim-treesitter.configs")
+if ts_configs then
+  ts_configs.setup {
+    ensure_installed = { "go", "gomod", "gowork", "gosum", "lua", "vim" },
+    highlight = {
+      enable = true,
+      disable = { "help" },
+    },
+  }
+end
+
+-- LSP関連のキーマップ設定
+vim.keymap.set('n', 'K',  vim.lsp.buf.hover)
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+vim.keymap.set('n', 'gr', vim.lsp.buf.references)
+vim.keymap.set('n', 'gn', vim.lsp.buf.rename)
+vim.keymap.set('n', 'ge', vim.diagnostic.open_float)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+EOF
+
 " ===== Filetypes / per-language =====
 filetype plugin indent on
 augroup FileTypeVimrcCommands

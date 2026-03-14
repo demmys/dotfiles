@@ -87,18 +87,12 @@ hook_add = ''' " {{{
 ''' # }}}
 
 [[plugins]]
-# Go言語の統合サポート
-repo = 'fatih/vim-go'
-on_ft = ['go']
-hook_source = ''' " {{{
-    " 新規Goファイル作成時にテンプレートを使用しない
-    let g:go_template_autocreate = 0
-    " GoFmtコマンドを保存時に走らせる
-    augroup GoFmtVimGoCommands
-        autocmd!
-        autocmd BufWritePre *.go GoFmt
-    augroup END
-''' # }}}
+# Go言語の統合サポート (LSP/Treesitterベース)
+repo = 'ray-x/go.nvim'
+on_ft = ['go', 'gomod']
+hook_source = '''
+  lua require('go').setup()
+'''
 
 [[plugins]]
 # LLVM IRのシンタックスハイライト

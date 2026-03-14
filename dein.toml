@@ -3,6 +3,32 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+# LSP設定の共通基盤
+repo = 'neovim/nvim-lspconfig'
+depends = ['mason.nvim']
+
+[[plugins]]
+# LSPサーバ/ツールマネージャ
+repo = 'williamboman/mason.nvim'
+
+[[plugins]]
+# masonとlspconfigの橋渡し
+repo = 'williamboman/mason-lspconfig.nvim'
+
+[[plugins]]
+# ddcでLSPの補完候補を表示
+repo = 'Shougo/ddc-source-lsp'
+
+[[plugins]]
+# 高精度な構文解析・ハイライト
+repo = 'nvim-treesitter/nvim-treesitter'
+hook_post_update = 'TSUpdate'
+
+[[plugins]]
+# 多くのモダンなプラグインが依存するユーティリティ
+repo = 'nvim-lua/plenary.nvim'
+
+[[plugins]]
 # ddc.vimで利用するフレームワーク
 repo = 'vim-denops/denops.vim'
 
@@ -14,12 +40,16 @@ hook_add = ''' " {{{
     " UIを適用
     call ddc#custom#patch_global('ui', 'native')
     " ソースプラグインを適用
-    call ddc#custom#patch_global('sources', ['around', 'file'])
-    " フィルタープラグインを適用
+    call ddc#custom#patch_global('sources', ['lsp', 'around', 'file'])
+    " ソースプラグインの設定
     call ddc#custom#patch_global('sourceOptions', #{
       \ _: #{
       \   matchers: ['matcher_head'],
       \   sorters: ['sorter_rank']},
+      \ lsp: #{
+      \   mark: 'LSP',
+      \   forceCompletionPattern: '\.\w*|:\w*|->\w*',
+      \   dup: 'keep'},
       \ })
 
     " Tabで補完候補を選択
