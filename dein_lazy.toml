@@ -87,11 +87,35 @@ hook_add = ''' " {{{
 ''' # }}}
 
 [[plugins]]
+# go.nvim のリッチなUI用 (依存先なので先に定義)
+repo = 'ray-x/guihua.lua'
+
+[[plugins]]
 # Go言語の統合サポート (LSP/Treesitterベース)
 repo = 'ray-x/go.nvim'
+depends = ['guihua.lua']
 on_ft = ['go', 'gomod']
 hook_source = '''
-  lua require('go').setup()
+lua << EOF
+require('go').setup({
+  goimport = 'goimports',
+  fillstruct = 'gopls',
+  tag_transform = false,
+  lsp_cfg = false, -- init.vimで設定済みのため
+  lsp_gofumpt = true,
+  dap_debug = true,
+})
+
+-- 保存時に自動で goimports/format を実行
+local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+   require('go.format').goimports()
+  end,
+  group = format_sync_grp,
+})
+EOF
 '''
 
 [[plugins]]

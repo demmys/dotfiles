@@ -25,6 +25,20 @@ repo = 'nvim-treesitter/nvim-treesitter'
 hook_post_update = 'TSUpdate'
 
 [[plugins]]
+# 汎用スニペット集
+repo = 'rafamadriz/friendly-snippets'
+
+[[plugins]]
+# スニペットエンジン
+repo = 'hrsh7th/vim-vsnip'
+depends = ['friendly-snippets']
+
+[[plugins]]
+# ddc用スニペットソース
+repo = 'uga-rosa/ddc-source-vsnip'
+depends = ['vim-vsnip']
+
+[[plugins]]
 # 多くのモダンなプラグインが依存するユーティリティ
 repo = 'nvim-lua/plenary.nvim'
 
@@ -40,7 +54,7 @@ hook_add = ''' " {{{
     " UIを適用
     call ddc#custom#patch_global('ui', 'native')
     " ソースプラグインを適用
-    call ddc#custom#patch_global('sources', ['lsp', 'around', 'file'])
+    call ddc#custom#patch_global('sources', ['lsp', 'vsnip', 'around', 'file'])
     " ソースプラグインの設定
     call ddc#custom#patch_global('sourceOptions', #{
       \ _: #{
@@ -49,7 +63,31 @@ hook_add = ''' " {{{
       \ lsp: #{
       \   mark: 'LSP',
       \   forceCompletionPattern: '\.\w*|:\w*|->\w*',
-      \   dup: 'keep'},
+      \   dup: 'keep',
+      \   isVolatile: v:true,
+      \ },
+      \ around: #{
+      \   mark: 'A',
+      \ },
+      \ vsnip: #{
+      \   mark: 'S',
+      \ },
+      \ file: #{
+      \   mark: 'F',
+      \   isVolatile: v:true,
+      \   forceCompletionPattern: '\S/\S*',
+      \ },
+      \ })
+
+    " LSPソースのパラメータ設定 (スニペット展開を有効化)
+    call ddc#custom#patch_global('sourceParams', #{
+      \ lsp: #{
+      \   snippetEngine: denops#callback#register({
+      \     body -> vsnip#anonymous(body)
+      \   }),
+      \   enableResolveItem: v:true,
+      \   enableAdditionalTextEdit: v:true,
+      \ },
       \ })
 
     " Tabで補完候補を選択
@@ -60,6 +98,9 @@ hook_add = ''' " {{{
 
     " Shift+Tabで補完候補を遡る
     inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+
+    " Enterで補完を確定（スニペットを展開）
+    inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
     " ddcを有効化
     call ddc#enable()

@@ -199,28 +199,46 @@ end
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
 
--- lspconfigの利用
-local ok, gopls_data = pcall(require, "lspconfig.configs.gopls")
-if ok and gopls_data then
-  local config = vim.tbl_deep_extend("force", gopls_data.default_config, {
-    -- エラーの原因である lspconfig の root_dir を、Neovim標準の安定した関数で上書き
-    root_dir = function(fname)
-      return vim.fs.root(fname, { 'go.work', 'go.mod', '.git' })
-    end,
-    settings = {
-      gopls = {
-        analyses = { unusedparams = true },
-        staticcheck = true,
-        gofumpt = true,
+-- LSPがアタッチされた時の動作設定
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local bufnr = args.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    -- Inlay Hintsを有効化 (サーバが対応している場合)
+    if client and client.server_capabilities.inlayHintProvider then
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    end
+  end,
+})
+
+-- gopls: Neovim native API (vim.lsp.config + vim.lsp.enable) で設定
+-- NOTE: root_dir に関数を渡すと callback 形式 (bufnr, on_dir) が必要なため、
+--       宣言的な root_markers を使用する
+vim.lsp.config("gopls", {
+  cmd = { "gopls" },
+  filetypes = { "go", "gomod", "gowork", "gosum" },
+  root_markers = { "go.work", "go.mod", ".git" },
+  settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
+        shadow = true,
+      },
+      staticcheck = true,
+      gofumpt = true,
+      hints = {
+        assignVariableTypes = true,
+        compositeLiteralFields = true,
+        compositeLiteralTypes = true,
+        constantValues = true,
+        functionTypeParameters = true,
+        parameterNames = true,
+        rangeVariableTypes = true,
       },
     },
-  })
-
-  -- Neovim本体にLSP設定を登録
-  vim.lsp.config("gopls", config)
-  -- LSPを有効化
-  vim.lsp.enable("gopls")
-end
+  },
+})
+vim.lsp.enable("gopls")
 
 -- Treesitter: ハイライト設定
 local ts_configs = safe_require("nvim-treesitter.configs")
